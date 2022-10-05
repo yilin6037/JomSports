@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "701896843426",
+    "project_id": "jomsports-dd76e",
+    "storage_bucket": "jomsports-dd76e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701896843426:android:86088738b90392a0d1b7fb",
+        "android_client_info": {
+          "package_name": "com.example.jomsports"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701896843426-45ngnht3fap7hl00aqd8l58e60cmtqs5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5SB1xYo4m9eyxAenFSysqksya156LI4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701896843426-45ngnht3fap7hl00aqd8l58e60cmtqs5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
