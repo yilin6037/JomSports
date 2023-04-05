@@ -4,6 +4,7 @@ import 'package:jomsports/shared/constant/color.dart';
 import 'package:jomsports/shared/constant/textformfield_validator.dart';
 import 'package:jomsports/controllers/user_controller.dart';
 import 'package:jomsports/shared/dialog.dart';
+import 'package:jomsports/shared/widget/scaffold/scaffold_simple.dart';
 import 'package:jomsports/views/home/home_page.dart';
 import 'package:jomsports/shared/widget/button.dart';
 import 'package:jomsports/shared/widget/textformfield.dart';
@@ -14,19 +15,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserController userController = Get.put(UserController());
-    RxDouble height = RxDouble(225);
-    var keyboardOn = MediaQuery.of(context).viewInsets.bottom.obs;
-    if (keyboardOn.value > 0) {
-      height = RxDouble(75);
-    } else {
-      height = RxDouble(225);
-    }
-    return Scaffold(
-        backgroundColor: const Color(ColorConstant.scaffoldBackgroundColor),
-        appBar: AppBar(
-            backgroundColor: const Color(ColorConstant.appBarBackgroundColor),
-            toolbarHeight: height.value,
-            title: Image.asset('assets/logo.png')),
+    
+    return SimpleScaffold(
         body: Center(
             child: SingleChildScrollView(
           child: Card(
