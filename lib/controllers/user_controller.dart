@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jomsports/models/sports_lover.dart';
 import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/models/user.dart';
@@ -78,6 +79,8 @@ class UserController extends GetxController {
     phoneNoTextController = TextEditingController(text: currentUser.phoneNo);
     profileEmailTextController = TextEditingController(text: currentUser.email);
     profilePasswordTextController = TextEditingController(text: '******');
+    profilePicture = XFile('');
+    profilePictureUrl = await currentUser.getProfilePicUrl();
 
     switch (currentUser.userType) {
       case Role.sportsLover:
@@ -108,7 +111,7 @@ class UserController extends GetxController {
         phoneNo: phoneNoTextController.text,
         preferenceSports: preferenceSports);
 
-    await editedSportsLover.editProfile();
+    await editedSportsLover.editProfile(profilePicture);
     currentUser = await User.getUser(currentUser.userID);
   }
 
@@ -122,9 +125,16 @@ class UserController extends GetxController {
         lon: lon,
         address: addressTextController.text);
 
-    await editedSportsRelatedBusiness.editProfile();
+    await editedSportsRelatedBusiness.editProfile(profilePicture);
     currentUser = await User.getUser(currentUser.userID);
   }
+
+  XFile profilePicture = XFile('');
+  String profilePictureUrl = '';
+  void onSelectProfilePicture(XFile imageSelected){
+    profilePicture = XFile(imageSelected.path);
+  }
+  
 
   //login
   dynamic currentUser = User();

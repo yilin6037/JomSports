@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/user_controller.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
+import 'package:jomsports/shared/widget/image_picker.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_default.dart';
 import 'package:jomsports/views/authentication/login/login_page.dart';
 import 'package:jomsports/views/authentication/widget/sports_related_business_profile_form.dart';
@@ -20,9 +21,17 @@ class EditProfileSportsRelatedBusinessPage extends StatelessWidget {
       body: Card(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-          child: SportsRelatedBusinessProfileForm(
-            buttonText: 'Save',
-            onSubmitted: editProfile,
+          child: Column(
+            children: [
+              SharedImagePicker(
+                    image: userController.profilePicture,
+                    onSelectImage: userController.onSelectProfilePicture,
+                    imageUrl: userController.profilePictureUrl,),
+              SportsRelatedBusinessProfileForm(
+                buttonText: 'Save',
+                onSubmitted: editProfile,
+              ),
+            ],
           ),
         ),
       ),

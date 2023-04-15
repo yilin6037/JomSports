@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:jomsports/models/user.dart';
 import 'package:jomsports/services/authentication_service_firebase.dart';
+import 'package:jomsports/services/storage_service_firebase.dart';
 import 'package:jomsports/services/user_service_firebase.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/constant/sports.dart';
+import 'package:jomsports/shared/constant/storage_destination.dart';
 
 class SportsLover extends User {
   List<String> followedFriends;
@@ -63,9 +68,18 @@ class SportsLover extends User {
     followedFriends = sportsLover.followedFriends;
   }
 
-  Future editProfile() async {
+  Future<String> getProfilePicUrl() async{
+    StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
+    return await storageServiceFirebase.getImage(StorageDestination.profilePic, userID);
+  }
+
+  Future editProfile(XFile profilePictureXFile) async {
     UserServiceFirebase userServiceFirebase = UserServiceFirebase();
     await userServiceFirebase.updateSportsLover(this);
 
+    //profile picture
+    File profilePic = File(profilePictureXFile.path);
+    StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
+    await storageServiceFirebase.uploadFile(StorageDestination.profilePic, userID, profilePic);
   }
 }

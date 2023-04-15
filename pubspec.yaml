@@ -40,7 +40,8 @@ dependencies:
   firebase_core_platform_interface: ^4.6.0
   get: ^4.6.5
   image_picker: ^0.8.7+2
-  map_location_picker: ^1.1.0
+  firebase_storage: ^11.1.0
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
