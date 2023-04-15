@@ -1,5 +1,6 @@
 enum ValidatorType{
   none,
   required,
-  email
+  email,
+  phoneNo
 }

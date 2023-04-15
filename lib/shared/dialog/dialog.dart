@@ -12,4 +12,18 @@ class SharedDialog {
             },
             text: 'Ok'));
   }
+
+  static void errorDialog(){
+    alertDialog('Error', 'Something went wrong!');
+  }
+
+  static void directDialog(String title, String message, dynamic page){
+    Get.defaultDialog(
+      title: title,
+      middleText: message,
+      confirm: SharedButton(onPressed: (){
+        Get.offAll(page);
+      }, text: 'Ok')
+    );
+  }
 }
