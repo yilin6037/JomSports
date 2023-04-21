@@ -37,9 +37,8 @@ class SportsLover extends User {
     sportsLover.preferenceSports = json?['preferenceSports']
         .map<SportsType>((j) => SportsType.values.byName(j))
         .toList();
-    sportsLover.followedFriends = json?['followedFriends']
-        .map<String>((j) => j as String)
-        .toList();
+    sportsLover.followedFriends =
+        json?['followedFriends'].map<String>((j) => j as String).toList();
     return sportsLover;
   }
 
@@ -68,9 +67,10 @@ class SportsLover extends User {
     followedFriends = sportsLover.followedFriends;
   }
 
-  Future<String> getProfilePicUrl() async{
+  Future<String> getProfilePicUrl() async {
     StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
-    return await storageServiceFirebase.getImage(StorageDestination.profilePic, userID);
+    return await storageServiceFirebase.getImage(
+        StorageDestination.profilePic, userID);
   }
 
   Future editProfile(XFile profilePictureXFile) async {
@@ -78,8 +78,11 @@ class SportsLover extends User {
     await userServiceFirebase.updateSportsLover(this);
 
     //profile picture
-    File profilePic = File(profilePictureXFile.path);
-    StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
-    await storageServiceFirebase.uploadFile(StorageDestination.profilePic, userID, profilePic);
+    if (profilePictureXFile.path.isNotEmpty) {
+      File profilePic = File(profilePictureXFile.path);
+      StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
+      await storageServiceFirebase.uploadFile(
+          StorageDestination.profilePic, userID, profilePic);
+    }
   }
 }

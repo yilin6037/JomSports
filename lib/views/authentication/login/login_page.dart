@@ -7,7 +7,7 @@ import 'package:jomsports/shared/widget/scaffold/scaffold_simple.dart';
 import 'package:jomsports/views/authentication/forgot_password/forgot_password_page.dart';
 import 'package:jomsports/views/home/home_page.dart';
 import 'package:jomsports/shared/widget/button.dart';
-import 'package:jomsports/shared/widget/textformfield.dart';
+import 'package:jomsports/shared/widget/form/textformfield.dart';
 import 'package:jomsports/views/authentication/register/register_role_page.dart';
 
 class LoginPage extends StatelessWidget {
@@ -15,10 +15,11 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController userController = Get.put(UserController());
+    final UserController userController = Get.put(tag:'userController', UserController());
 
     return SimpleScaffold(
         role: userController.currentUser.userType,
+        navIndex: 0,
         body: Center(
             child: SingleChildScrollView(
           child: Card(
@@ -101,7 +102,7 @@ class LoginPage extends StatelessWidget {
   }
 
   void loginSuccessful() {
-    Get.offAll(HomePage());
+    Get.offAll(()=>HomePage());
   }
 
   void display(String title, String message) {

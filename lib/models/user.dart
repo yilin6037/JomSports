@@ -48,12 +48,12 @@ class User {
       case Role.sportsLover:
         SportsLover sportsLover = SportsLover();
         sportsLover.setUserData(user);
-        sportsLover.setSportsLoverData();
+        await sportsLover.setSportsLoverData();
         return sportsLover;
       case Role.sportsRelatedBusiness:
         SportsRelatedBusiness sportsRelatedBusiness = SportsRelatedBusiness();
         sportsRelatedBusiness.setUserData(user);
-        sportsRelatedBusiness.setSportsRelatedBusinessData();
+        await sportsRelatedBusiness.setSportsRelatedBusinessData();
         return sportsRelatedBusiness;
       case Role.admin:
         Admin admin = Admin();

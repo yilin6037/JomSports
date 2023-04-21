@@ -10,11 +10,12 @@ import 'package:jomsports/views/authentication/register/register_sports_related_
 
 class RegisterRolePage extends StatelessWidget {
   RegisterRolePage({super.key});
-  
-  final UserController userController = Get.find();
+
+  final UserController userController = Get.find(tag: 'userController');
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
+        navIndex: 0,
         title: 'Choose Role',
         role: userController.currentUser.userType,
         body: Card(
@@ -41,8 +42,7 @@ class RegisterRolePage extends StatelessWidget {
                       child: const Center(
                         child: Text('Sports Lover',
                             style: TextStyle(
-                                fontSize: 40,
-                                shadows: [Shadow(blurRadius: 1)]),
+                                fontSize: 40, shadows: [Shadow(blurRadius: 1)]),
                             textAlign: TextAlign.center),
                       ),
                     ),
@@ -62,8 +62,7 @@ class RegisterRolePage extends StatelessWidget {
                       child: const Center(
                         child: Text('Sports Related Business',
                             style: TextStyle(
-                                fontSize: 40,
-                                shadows: [Shadow(blurRadius: 1)]),
+                                fontSize: 40, shadows: [Shadow(blurRadius: 1)]),
                             textAlign: TextAlign.center),
                       ),
                     ),
@@ -75,13 +74,14 @@ class RegisterRolePage extends StatelessWidget {
         ));
   }
 
-  void displayPage(Role role) {
+  Future displayPage(Role role) async {
     userController.cleanProfileData();
     switch (role) {
       case Role.sportsLover:
         Get.to(RegisterSportsLoverPage());
         break;
       case Role.sportsRelatedBusiness:
+        await userController.initMap();
         Get.to(RegisterSportsRelatedBusinessPage());
         break;
       case Role.admin:

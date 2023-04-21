@@ -5,17 +5,17 @@ import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/constant/textformfield_validator.dart';
 import 'package:jomsports/shared/widget/button.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_default.dart';
-import 'package:jomsports/shared/widget/textformfield.dart';
-import 'package:jomsports/views/authentication/login/login_page.dart';
+import 'package:jomsports/shared/widget/form/textformfield.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({super.key});
-  final UserController userController = Get.find();
+  final UserController userController = Get.find(tag:'userController');
 
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
       title: 'Reset Password',
+      navIndex: 0,
       role: Role.notLoginned,
       body: Center(
         child: Card(

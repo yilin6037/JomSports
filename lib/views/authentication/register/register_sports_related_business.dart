@@ -9,12 +9,13 @@ import 'package:jomsports/views/authentication/widget/sports_related_business_pr
 class RegisterSportsRelatedBusinessPage extends StatelessWidget {
   RegisterSportsRelatedBusinessPage({super.key});
 
-  final UserController userController = Get.find();
+  final UserController userController = Get.find(tag:'userController');
 
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
       title: 'Register Sports Related Business',
+      navIndex: 0,
       role: userController.currentUser.userType,
       body: Card(
         child: Padding(

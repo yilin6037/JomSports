@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/user_controller.dart';
 import 'package:jomsports/shared/constant/textformfield_validator.dart';
-import 'package:jomsports/shared/widget/textformfield.dart';
+import 'package:jomsports/shared/widget/form/textformfield.dart';
 
 class UserDataTextfield extends StatelessWidget {
   UserDataTextfield({super.key, this.enableEmailPassword = false});
 
-  final UserController userController = Get.find();
+  final UserController userController = Get.find(tag:'userController');
   final bool enableEmailPassword;
 
   @override

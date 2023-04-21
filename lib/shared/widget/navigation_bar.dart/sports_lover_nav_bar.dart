@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/views/home/home_page.dart';
+import 'package:jomsports/views/sports_activity/sports_activity/sports_activity_page.dart';
 
 class SportsLoverNavBar extends StatelessWidget {
   const SportsLoverNavBar({super.key, required this.currentIndex});
@@ -19,6 +20,7 @@ class SportsLoverNavBar extends StatelessWidget {
             break;
           case 1:
             //sport activity
+            Get.to(SportsActivityPage());
             break;
           case 2:
             //sports shop

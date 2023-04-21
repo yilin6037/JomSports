@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/user_controller.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
-import 'package:jomsports/shared/widget/image_picker.dart';
+import 'package:jomsports/shared/widget/form/image_picker.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_default.dart';
-import 'package:jomsports/views/authentication/login/login_page.dart';
 import 'package:jomsports/views/authentication/widget/sports_related_business_profile_form.dart';
 import 'package:jomsports/views/home/home_page.dart';
 
 class EditProfileSportsRelatedBusinessPage extends StatelessWidget {
   EditProfileSportsRelatedBusinessPage({super.key});
 
-  final UserController userController = Get.find();
+  final UserController userController = Get.find(tag:'userController');
 
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
       title: 'Edit Profile',
+      navIndex: 0,
       role: userController.currentUser.userType,
       body: Card(
         child: Padding(

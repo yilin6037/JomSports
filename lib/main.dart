@@ -7,6 +7,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const GetMaterialApp(
+    defaultTransition: Transition.noTransition,transitionDuration: Duration.zero,
     home: LoginPage(),
     debugShowCheckedModeBanner: false
   ));

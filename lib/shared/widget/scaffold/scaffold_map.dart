@@ -7,16 +7,16 @@ import 'package:jomsports/shared/widget/navigation_bar.dart/admin_nav_bar.dart';
 import 'package:jomsports/shared/widget/navigation_bar.dart/sports_lover_nav_bar.dart';
 import 'package:jomsports/shared/widget/navigation_bar.dart/sports_related_business_nav_bar.dart';
 
-class DefaultScaffold extends StatelessWidget {
-  DefaultScaffold(
+class MapScaffold extends StatelessWidget {
+  MapScaffold(
       {super.key,
-      required this.body,
+      required this.children,
       required this.title,
       this.back = true,
       required this.role,
       required this.navIndex});
 
-  final Widget body;
+  final List<Widget> children;
   final String title;
   final bool back;
   final Role role;
@@ -39,16 +39,10 @@ class DefaultScaffold extends StatelessWidget {
               style: const TextStyle(color: Colors.black, fontSize: 25)),
         ),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
+        alignment: AlignmentDirectional.topCenter,
         children: [
-          const BackButton(),
-          Flexible(
-            child: SingleChildScrollView(
-              child: Center(child: body),
-            ),
-          ),
+          ...children
         ],
       ),
       bottomNavigationBar: navBar,

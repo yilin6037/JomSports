@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jomsports/models/sports_lover.dart';
 import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/models/user.dart';
+import 'package:jomsports/shared/constant/firestore.dart';
 
 class UserServiceFirebase {
   final firestoreInstance = FirebaseFirestore.instance;
 
   Future createUser(User user) async {
     return await firestoreInstance
-        .collection('User')
+        .collection(FirestoreCollectionConstant.user)
         .doc(user.userID)
         .set(user.toJson());
   }
@@ -16,7 +17,7 @@ class UserServiceFirebase {
   Future createSportsLover(SportsLover sportsLover) async {
     createUser(sportsLover);
     return await firestoreInstance
-        .collection('SportsLover')
+        .collection(FirestoreCollectionConstant.sportsLover)
         .doc(sportsLover.userID)
         .set(sportsLover.toJsonSportsLover());
   }
@@ -25,7 +26,7 @@ class UserServiceFirebase {
       SportsRelatedBusiness sportsRelatedBusiness) async {
     createUser(sportsRelatedBusiness);
     return await firestoreInstance
-        .collection('SportsRelatedBusiness')
+        .collection(FirestoreCollectionConstant.sportsRelatedBusiness)
         .doc(sportsRelatedBusiness.userID)
         .set(sportsRelatedBusiness.toJsonSportsRelatedBusiness());
   }
@@ -34,7 +35,7 @@ class UserServiceFirebase {
     User user;
 
     final snapshot =
-        await FirebaseFirestore.instance.collection('User').doc(userID).get();
+        await FirebaseFirestore.instance.collection(FirestoreCollectionConstant.user).doc(userID).get();
     user = User.fromJson(snapshot.data());
     user.userID = userID;
 
@@ -45,7 +46,7 @@ class UserServiceFirebase {
     SportsLover sportsLover;
 
     final snapshot = await FirebaseFirestore.instance
-        .collection('SportsLover')
+        .collection(FirestoreCollectionConstant.sportsLover)
         .doc(userID)
         .get();
     sportsLover = SportsLover.fromJsonSportsLover(snapshot.data());
@@ -58,7 +59,7 @@ class UserServiceFirebase {
     SportsRelatedBusiness sportsRelatedBusiness;
 
     final snapshot = await FirebaseFirestore.instance
-        .collection('SportsRelatedBusiness')
+        .collection(FirestoreCollectionConstant.sportsRelatedBusiness)
         .doc(userID)
         .get();
     sportsRelatedBusiness =
@@ -70,7 +71,7 @@ class UserServiceFirebase {
 
   Future updateUser(User user) async {
     return await firestoreInstance
-        .collection('User')
+        .collection(FirestoreCollectionConstant.user)
         .doc(user.userID)
         .update(user.toJson());
   }
@@ -78,7 +79,7 @@ class UserServiceFirebase {
   Future updateSportsLover(SportsLover sportsLover) async {
     createUser(sportsLover);
     return await firestoreInstance
-        .collection('SportsLover')
+        .collection(FirestoreCollectionConstant.sportsLover)
         .doc(sportsLover.userID)
         .update(sportsLover.toJsonSportsLover());
   }
@@ -87,7 +88,7 @@ class UserServiceFirebase {
       SportsRelatedBusiness sportsRelatedBusiness) async {
     createUser(sportsRelatedBusiness);
     return await firestoreInstance
-        .collection('SportsRelatedBusiness')
+        .collection(FirestoreCollectionConstant.sportsRelatedBusiness)
         .doc(sportsRelatedBusiness.userID)
         .update(sportsRelatedBusiness.toJsonSportsRelatedBusiness());
   }

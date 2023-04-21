@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/shared/widget/button.dart';
 
@@ -13,17 +14,18 @@ class SharedDialog {
             text: 'Ok'));
   }
 
-  static void errorDialog(){
+  static void errorDialog() {
     alertDialog('Error', 'Something went wrong!');
   }
 
-  static void directDialog(String title, String message, dynamic page){
+  static void directDialog(String title, String message, Widget page) {
     Get.defaultDialog(
-      title: title,
-      middleText: message,
-      confirm: SharedButton(onPressed: (){
-        Get.offAll(page);
-      }, text: 'Ok')
-    );
+        title: title,
+        middleText: message,
+        confirm: SharedButton(
+            onPressed: () {
+              Get.off(() => page);
+            },
+            text: 'Ok'));
   }
 }

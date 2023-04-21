@@ -8,10 +8,11 @@ import 'package:jomsports/shared/widget/navigation_bar.dart/sports_lover_nav_bar
 import 'package:jomsports/shared/widget/navigation_bar.dart/sports_related_business_nav_bar.dart';
 
 class SimpleScaffold extends StatelessWidget {
-  const SimpleScaffold({super.key, required this.body, required this.role});
+  const SimpleScaffold({super.key, required this.body, required this.role, required this.navIndex});
 
   final Widget body;
   final Role role;
+  final int navIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +37,11 @@ class SimpleScaffold extends StatelessWidget {
   Widget? bottomNavigationBar(){
     switch (role){
       case Role.sportsLover:
-        return const SportsLoverNavBar(currentIndex: 0);
+        return SportsLoverNavBar(currentIndex: navIndex);
       case Role.sportsRelatedBusiness:
-        return const SportsRelatedBusinessNavBar(currentIndex: 0);
+        return SportsRelatedBusinessNavBar(currentIndex: navIndex);
       case Role.admin:
-        return const AdminNavBar(currentIndex: 0);
+        return AdminNavBar(currentIndex: navIndex);
       case Role.notLoginned:
         return null;
     }

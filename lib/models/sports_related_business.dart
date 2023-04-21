@@ -80,14 +80,17 @@ class SportsRelatedBusiness extends User {
     await userServiceFirebase.updateSportsRelatedBusiness(this);
 
 //profile picture
-    File profilePic = File(profilePictureXFile.path);
-    StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
-    await storageServiceFirebase.uploadFile(
-        StorageDestination.profilePic, userID, profilePic);
+    if (profilePictureXFile.path.isNotEmpty) {
+      File profilePic = File(profilePictureXFile.path);
+      StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
+      await storageServiceFirebase.uploadFile(
+          StorageDestination.profilePic, userID, profilePic);
+    }
   }
 
-   Future<String> getProfilePicUrl() async{
+  Future<String> getProfilePicUrl() async {
     StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
-    return await storageServiceFirebase.getImage(StorageDestination.profilePic, userID);
+    return await storageServiceFirebase.getImage(
+        StorageDestination.profilePic, userID);
   }
 }

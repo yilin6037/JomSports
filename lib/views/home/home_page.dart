@@ -10,12 +10,13 @@ import 'package:jomsports/views/authentication/edit_profile/edit_profile_sports_
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
-  final UserController userController = Get.find();
+  final UserController userController = Get.find(tag:'userController');
 
   @override
   Widget build(BuildContext context) {
     return SimpleScaffold(
         role: userController.currentUser.userType,
+        navIndex: 0,
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -29,7 +30,23 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      const CircleAvatar(),
+                      CircleAvatar(
+                        radius: 50,
+                          child: userController.profilePictureUrl.isNotEmpty
+                              ? ClipOval(
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: Ink.image(
+                                        image: NetworkImage(
+                                            userController.profilePictureUrl),
+                                        fit: BoxFit.cover,
+                                        width: 150,
+                                        height: 150,
+                                        child: const InkWell(
+                                            /* onTap: onClicked */)),
+                                  ),
+                                )
+                              : Icon(Icons.person)),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.55,
                         child: Column(
@@ -41,23 +58,25 @@ class HomePage extends StatelessWidget {
                                   fontSize: 24, fontWeight: FontWeight.bold),
                               softWrap: true,
                             ),
-                            if (userController.currentUser.userType != Role.admin) SharedButton(
-                                    onPressed: () {
-                                      userController.initProfileData();
-                                      switch (
-                                          userController.currentUser.userType) {
-                                        case Role.sportsLover:
-                                          Get.to(EditProfileSportsLoverPage());
-                                          break;
-                                        case Role.sportsRelatedBusiness:
-                                          Get.to(
-                                              EditProfileSportsRelatedBusinessPage());
-                                          break;
-                                        default:
-                                          break;
-                                      }
-                                    },
-                                    text: 'Edit Profile'),
+                            if (userController.currentUser.userType !=
+                                Role.admin)
+                              SharedButton(
+                                  onPressed: () async {
+                                    await userController.initProfileData();
+                                    switch (
+                                        userController.currentUser.userType) {
+                                      case Role.sportsLover:
+                                        Get.to(EditProfileSportsLoverPage());
+                                        break;
+                                      case Role.sportsRelatedBusiness:
+                                        Get.to(
+                                            EditProfileSportsRelatedBusinessPage());
+                                        break;
+                                      default:
+                                        break;
+                                    }
+                                  },
+                                  text: 'Edit Profile'),
                             SharedButton(
                               text: 'Logout',
                               onPressed: () async {

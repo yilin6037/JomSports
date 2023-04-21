@@ -12,7 +12,7 @@ class SportsLoverProfileForm extends StatelessWidget {
       required this.onSubmitted,
       this.enabledEmailPassword = false});
 
-  final UserController userController = Get.find();
+  final UserController userController = Get.find(tag:'userController');
   final String buttonText;
   final Function() onSubmitted;
   final bool enabledEmailPassword;

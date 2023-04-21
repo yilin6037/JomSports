@@ -13,7 +13,7 @@ class SharedTextFormField extends StatelessWidget {
       this.keyboard = TextInputType.text,
       this.errorText = 'This field is required',
       this.validator = ValidatorType.none,
-      this.enabled = true})
+      this.enabled = true, this.maxLines = 1})
       : super(key: key);
   final TextEditingController? controller;
   final String? hintText; //placeholder
@@ -24,7 +24,8 @@ class SharedTextFormField extends StatelessWidget {
       keyboard; //type of input (TextInputType.number / TextInputType.text)
   final String? initialValue;
   final ValidatorType validator;
-  final enabled;
+  final bool enabled;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +60,19 @@ class SharedTextFormField extends StatelessWidget {
               }
               break;
             case ValidatorType.phoneNo:
-              if(value == ''){
+              if (value == '') {
                 return 'This field is required';
               }
-              if(!GetUtils.isPhoneNumber(value)){
+              if (!GetUtils.isPhoneNumber(value)) {
                 return 'Please enter a valid phone no. (0123456789)';
+              }
+              break;
+            case ValidatorType.integer:
+              if (value == '') {
+                return 'This field is required';
+              }
+              if (!GetUtils.isNumericOnly(value)) {
+                return 'Please enter numeric number';
               }
               break;
           }
@@ -71,6 +80,7 @@ class SharedTextFormField extends StatelessWidget {
 
         return null;
       },
+      maxLines: maxLines,
     );
   }
 }

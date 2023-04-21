@@ -4,11 +4,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jomsports/models/sports_lover.dart';
 import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/models/user.dart';
+import 'package:jomsports/services/map_location_picker_service.dart';
 import 'package:jomsports/shared/constant/authentication_status.dart';
+import 'package:jomsports/shared/constant/map.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/constant/sports.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
 import 'package:jomsports/views/authentication/login/login_page.dart';
+import 'package:map_location_picker/map_location_picker.dart';
 
 class UserController extends GetxController {
   //register & edit profile
@@ -21,10 +24,27 @@ class UserController extends GetxController {
   List<RxBool> preferenceSportsCheckbox =
       List.generate(SportsType.values.length, (index) => RxBool(false));
   //sports related business
-  TextEditingController addressTextController =
-      TextEditingController(text: 'test address');
+  TextEditingController addressTextController = TextEditingController();
   double lat = 0;
   double lon = 0;
+
+  Future initMap() async {
+    MapLocationPickerService geolocatorService = MapLocationPickerService();
+    Position? position = await geolocatorService.determinePosition();
+    if (position != null) {
+      lat = position.latitude;
+      lon = position.longitude;
+    } else {
+      lat = MapConstant.defaultLat;
+      lon = MapConstant.defaultLon;
+    }
+  }
+
+  void onPickLocation(String address, double lat, double lon) {
+    addressTextController.text = address;
+    this.lat = lat;
+    this.lon = lon;
+  }
 
   Future<bool> registerSportsLover() async {
     Get.put('', tag: 'message');
@@ -67,37 +87,39 @@ class UserController extends GetxController {
     profilePasswordTextController = TextEditingController();
     preferenceSportsCheckbox =
         List.generate(SportsType.values.length, (index) => RxBool(false));
-    addressTextController = TextEditingController(text: 'test address');
+    addressTextController = TextEditingController();
     lat = 0;
     lon = 0;
     profileFormKey = GlobalKey<FormState>();
   }
 
   Future<void> initProfileData() async {
-    profileFormKey = GlobalKey<FormState>();
-    nameTextController = TextEditingController(text: currentUser.name);
-    phoneNoTextController = TextEditingController(text: currentUser.phoneNo);
-    profileEmailTextController = TextEditingController(text: currentUser.email);
-    profilePasswordTextController = TextEditingController(text: '******');
-    profilePicture = XFile('');
-    profilePictureUrl = await currentUser.getProfilePicUrl();
+    await initUser().then((value) {
+      profileFormKey = GlobalKey<FormState>();
+      nameTextController = TextEditingController(text: currentUser.name);
+      phoneNoTextController = TextEditingController(text: currentUser.phoneNo);
+      profileEmailTextController =
+          TextEditingController(text: currentUser.email);
+      profilePasswordTextController = TextEditingController(text: '******');
+      profilePicture = XFile('');
 
-    switch (currentUser.userType) {
-      case Role.sportsLover:
-        preferenceSportsCheckbox = List.generate(
-            SportsType.values.length,
-            (index) => RxBool(currentUser.preferenceSports
-                .contains(SportsType.values.elementAt(index))));
-        break;
-      case Role.sportsRelatedBusiness:
-        lat = currentUser.lat;
-        lon = currentUser.lon;
-        addressTextController =
-            TextEditingController(text: currentUser.address);
-        break;
-      default:
-        break;
-    }
+      switch (currentUser.userType) {
+        case Role.sportsLover:
+          preferenceSportsCheckbox = List.generate(
+              SportsType.values.length,
+              (index) => RxBool(currentUser.preferenceSports
+                  .contains(SportsType.values.elementAt(index))));
+          break;
+        case Role.sportsRelatedBusiness:
+          lat = currentUser.lat;
+          lon = currentUser.lon;
+          addressTextController =
+              TextEditingController(text: currentUser.address);
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   Future editProfileSportsLover() async {
@@ -112,7 +134,8 @@ class UserController extends GetxController {
         preferenceSports: preferenceSports);
 
     await editedSportsLover.editProfile(profilePicture);
-    currentUser = await User.getUser(currentUser.userID);
+    await initUser();
+    // currentUser = await User.getUser(currentUser.userID);
   }
 
   Future editProfileSportsRelatedBusiness() async {
@@ -126,15 +149,19 @@ class UserController extends GetxController {
         address: addressTextController.text);
 
     await editedSportsRelatedBusiness.editProfile(profilePicture);
-    currentUser = await User.getUser(currentUser.userID);
+    await initUser();
   }
 
   XFile profilePicture = XFile('');
   String profilePictureUrl = '';
-  void onSelectProfilePicture(XFile imageSelected){
+  void onSelectProfilePicture(XFile imageSelected) {
     profilePicture = XFile(imageSelected.path);
   }
-  
+
+  Future initUser() async {
+    currentUser = await User.getUser(currentUser.userID);
+    profilePictureUrl = await currentUser.getProfilePicUrl();
+  }
 
   //login
   dynamic currentUser = User();
@@ -148,9 +175,13 @@ class UserController extends GetxController {
         await User.login(emailTextController.text, passwordTextController.text);
     bool isUser = signInResult != null;
     if (isUser) {
-      currentUser = await User.getUser(signInResult.uid);
+      currentUser.userID = signInResult.uid;
+      return await initUser().then((value) {
+        return isUser;
+      });
+    } else {
+      return isUser;
     }
-    return isUser;
   }
 
   void cleanLoginData() {
@@ -167,7 +198,6 @@ class UserController extends GetxController {
       cleanLoginData();
       SharedDialog.directDialog(
           'You have been logged out', 'Please login again.', const LoginPage());
-      // Get.offAll(const LoginPage());
     } else {
       return result;
     }
@@ -177,11 +207,12 @@ class UserController extends GetxController {
   Future resetPassword(String email, {bool redirectLogin = false}) async {
     await User.resetPassword(email).then((value) {
       if (value) {
-        if(redirectLogin){
-          SharedDialog.directDialog('A password reset email is sent.', 'Please check your email.', const LoginPage());
-        }else{
+        if (redirectLogin) {
+          SharedDialog.directDialog('A password reset email is sent.',
+              'Please check your email.', const LoginPage());
+        } else {
           SharedDialog.alertDialog(
-            'A password reset email is sent.', 'Please check your email.');
+              'A password reset email is sent.', 'Please check your email.');
         }
       } else {
         String message = Get.find(tag: 'message');

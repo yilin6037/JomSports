@@ -9,12 +9,13 @@ import 'package:jomsports/views/authentication/widget/sports_lover_profile_form.
 class RegisterSportsLoverPage extends StatelessWidget {
   RegisterSportsLoverPage({super.key});
 
-  final UserController userController = Get.find();
+  final UserController userController = Get.find(tag:'userController');
 
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
       title: 'Register as Sports Lover',
+      navIndex: 0,
       role: userController.currentUser.userType,
       body: Card(
         child: Padding(
