@@ -4,7 +4,7 @@ import 'package:jomsports/controllers/sports_activity_controller.dart';
 import 'package:jomsports/shared/constant/color.dart';
 import 'package:jomsports/shared/constant/sports.dart';
 import 'package:jomsports/shared/constant/textformfield_validator.dart';
-import 'package:jomsports/shared/widget/button.dart';
+import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:jomsports/shared/widget/form/date_time_picker.dart';
 import 'package:jomsports/shared/widget/form/dropdown_button_form_field.dart';
 import 'package:jomsports/shared/widget/form/map_location_picker.dart';
@@ -79,8 +79,8 @@ class SportsActivityForm extends StatelessWidget {
             validator: ValidatorType.required,
           ),
           SharedMapLocationPicker(
-            currentLat: sportsActivityController.lat,
-            currentLon: sportsActivityController.lon,
+            currentLat: sportsActivityController.lat.value,
+            currentLon: sportsActivityController.lon.value,
             onPickLocation: (address, lat, lon) {
               mapValidationMessage.value = '';
               sportsActivityController.onPickLocation(address, lat, lon);

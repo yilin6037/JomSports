@@ -14,7 +14,8 @@ class DefaultScaffold extends StatelessWidget {
       required this.title,
       this.back = true,
       required this.role,
-      required this.navIndex});
+      required this.navIndex,
+      this.scrollable = true});
 
   final Widget body;
   final String title;
@@ -22,6 +23,7 @@ class DefaultScaffold extends StatelessWidget {
   final Role role;
   final int navIndex;
   Widget? navBar;
+  final bool scrollable;
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +47,11 @@ class DefaultScaffold extends StatelessWidget {
         children: [
           const BackButton(),
           Flexible(
-            child: SingleChildScrollView(
-              child: Center(child: body),
-            ),
+            child: scrollable
+                ? SingleChildScrollView(
+                    child: Center(child: body),
+                  )
+                : Center(child: body),
           ),
         ],
       ),

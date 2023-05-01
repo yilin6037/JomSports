@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
-import 'package:jomsports/shared/widget/button.dart';
+import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class SharedImagePicker extends StatelessWidget {

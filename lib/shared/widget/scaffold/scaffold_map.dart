@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:jomsports/shared/constant/asset.dart';
 import 'package:jomsports/shared/constant/color.dart';
+import 'package:jomsports/shared/constant/map.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/widget/navigation_bar.dart/admin_nav_bar.dart';
 import 'package:jomsports/shared/widget/navigation_bar.dart/sports_lover_nav_bar.dart';
 import 'package:jomsports/shared/widget/navigation_bar.dart/sports_related_business_nav_bar.dart';
+import 'package:map_location_picker/map_location_picker.dart';
 
 class MapScaffold extends StatelessWidget {
   MapScaffold(
@@ -14,7 +15,10 @@ class MapScaffold extends StatelessWidget {
       required this.title,
       this.back = true,
       required this.role,
-      required this.navIndex});
+      required this.navIndex,
+      this.currentLatLng =
+          const LatLng(MapConstant.defaultLat, MapConstant.defaultLon),
+      required this.stream});
 
   final List<Widget> children;
   final String title;
@@ -22,10 +26,16 @@ class MapScaffold extends StatelessWidget {
   final Role role;
   final int navIndex;
   Widget? navBar;
+  final LatLng currentLatLng;
+  final Stream<List<Marker>> stream;
 
   @override
   Widget build(BuildContext context) {
     initScaffold();
+    final currentLocationCamera = CameraPosition(
+      target: currentLatLng,
+      zoom: 14.4746,
+    );
     return Scaffold(
       backgroundColor: const Color(ColorConstant.scaffoldBackgroundColor),
       appBar: AppBar(
@@ -42,6 +52,19 @@ class MapScaffold extends StatelessWidget {
       body: Stack(
         alignment: AlignmentDirectional.topCenter,
         children: [
+          StreamBuilder<List<Marker>>(
+            stream: stream,
+            builder: (context, snapshot) => GoogleMap(
+              initialCameraPosition: currentLocationCamera,
+              rotateGesturesEnabled: true,
+              tiltGesturesEnabled: false,
+              mapToolbarEnabled: false,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
+              zoomControlsEnabled: false,
+              markers: Set<Marker>.of(snapshot.data ?? []),
+            ),
+          ),
           ...children
         ],
       ),

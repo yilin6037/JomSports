@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jomsports/shared/widget/button.dart';
+import 'package:jomsports/shared/widget/button/button.dart';
 
 class SharedDialog {
   static void alertDialog(String title, String message) {

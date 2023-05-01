@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:jomsports/controllers/user_controller.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
-import 'package:jomsports/shared/widget/button.dart';
+import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_simple.dart';
 import 'package:jomsports/views/authentication/edit_profile/edit_profile_sports_lover_page.dart';
 import 'package:jomsports/views/authentication/edit_profile/edit_profile_sports_related_business_page.dart';

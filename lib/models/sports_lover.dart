@@ -67,10 +67,12 @@ class SportsLover extends User {
     followedFriends = sportsLover.followedFriends;
   }
 
+  @override
   Future<String> getProfilePicUrl() async {
     StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
-    return await storageServiceFirebase.getImage(
+    profilePictureUrl = await storageServiceFirebase.getImage(
         StorageDestination.profilePic, userID);
+    return profilePictureUrl??'';
   }
 
   Future editProfile(XFile profilePictureXFile) async {
@@ -84,5 +86,10 @@ class SportsLover extends User {
       await storageServiceFirebase.uploadFile(
           StorageDestination.profilePic, userID, profilePic);
     }
+  }
+
+  Future editFollowedFriends() async{
+    UserServiceFirebase userServiceFirebase = UserServiceFirebase();
+    await userServiceFirebase.updateSportsLover(this);
   }
 }

@@ -2,8 +2,10 @@ import 'package:jomsports/models/admin.dart';
 import 'package:jomsports/models/sports_lover.dart';
 import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/services/authentication_service_firebase.dart';
+import 'package:jomsports/services/storage_service_firebase.dart';
 import 'package:jomsports/services/user_service_firebase.dart';
 import 'package:jomsports/shared/constant/role.dart';
+import 'package:jomsports/shared/constant/storage_destination.dart';
 
 class User {
   String userID;
@@ -11,6 +13,7 @@ class User {
   String email;
   String phoneNo;
   Role userType;
+  String? profilePictureUrl;
 
   User(
       {this.userID = '',
@@ -68,6 +71,13 @@ class User {
     AuthenticationServiceFirebase authenticationServiceFirebase =
         AuthenticationServiceFirebase();
     return await authenticationServiceFirebase.resetPassword(email);
+  }
+
+  Future<String> getProfilePicUrl() async {
+    StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
+    profilePictureUrl = await storageServiceFirebase.getImage(
+        StorageDestination.profilePic, userID);
+    return profilePictureUrl??'';
   }
 
   Map<String, dynamic> toJson() => {

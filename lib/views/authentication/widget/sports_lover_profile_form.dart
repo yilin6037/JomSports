@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/user_controller.dart';
 import 'package:jomsports/shared/constant/sports.dart';
-import 'package:jomsports/shared/widget/button.dart';
+import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:jomsports/views/authentication/widget/user_data_textfield.dart';
 
 class SportsLoverProfileForm extends StatelessWidget {

@@ -88,9 +88,11 @@ class SportsRelatedBusiness extends User {
     }
   }
 
+  @override
   Future<String> getProfilePicUrl() async {
     StorageServiceFirebase storageServiceFirebase = StorageServiceFirebase();
-    return await storageServiceFirebase.getImage(
+    profilePictureUrl = await storageServiceFirebase.getImage(
         StorageDestination.profilePic, userID);
+    return profilePictureUrl??'';
   }
 }
