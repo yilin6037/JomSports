@@ -21,54 +21,52 @@ class RegisterRolePage extends StatelessWidget {
         body: Card(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => displayPage(Role.sportsLover),
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(0)),
-                    child: Container(
-                      width: 250,
-                      height: 225,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(AssetConstant.sportsLover),
-                              fit: BoxFit.cover)),
-                      child: const Center(
-                        child: Text('Sports Lover',
-                            style: TextStyle(
-                                fontSize: 40, shadows: [Shadow(blurRadius: 1)]),
-                            textAlign: TextAlign.center),
-                      ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () => displayPage(Role.sportsLover),
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(0)),
+                  child: Container(
+                    width: 250,
+                    height: 225,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(AssetConstant.sportsLover),
+                            fit: BoxFit.cover)),
+                    child: const Center(
+                      child: Text('Sports Lover',
+                          style: TextStyle(
+                              fontSize: 40, shadows: [Shadow(blurRadius: 1)]),
+                          textAlign: TextAlign.center),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () => displayPage(Role.sportsRelatedBusiness),
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(0)),
-                    child: Container(
-                      width: 250,
-                      height: 225,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  AssetConstant.sportsRelatedBusiness),
-                              fit: BoxFit.cover)),
-                      child: const Center(
-                        child: Text('Sports Related Business',
-                            style: TextStyle(
-                                fontSize: 40, shadows: [Shadow(blurRadius: 1)]),
-                            textAlign: TextAlign.center),
-                      ),
+                ),
+                const SizedBox(height: 10,),
+                ElevatedButton(
+                  onPressed: () => displayPage(Role.sportsRelatedBusiness),
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(0)),
+                  child: Container(
+                    width: 250,
+                    height: 225,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                                AssetConstant.sportsRelatedBusiness),
+                            fit: BoxFit.cover)),
+                    child: const Center(
+                      child: Text('Sports Related Business',
+                          style: TextStyle(
+                              fontSize: 40, shadows: [Shadow(blurRadius: 1)]),
+                          textAlign: TextAlign.center),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ));

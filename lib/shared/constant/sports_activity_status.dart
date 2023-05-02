@@ -1,4 +1,0 @@
-enum SportsActivityStatus{
-  open,
-  closed
-}

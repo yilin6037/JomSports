@@ -2,7 +2,6 @@ import 'package:jomsports/models/user.dart';
 import 'package:jomsports/services/sports_activity_service_firebase.dart';
 import 'package:jomsports/shared/constant/join_status.dart';
 import 'package:jomsports/shared/constant/sports.dart';
-import 'package:jomsports/shared/constant/sports_activity_status.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
 class SportsActivity {
@@ -14,7 +13,6 @@ class SportsActivity {
   double lat;
   double lon;
   String description;
-  SportsActivityStatus status;
 
   SportsActivity(
       {required this.saID,
@@ -24,8 +22,7 @@ class SportsActivity {
       required this.address,
       required this.lat,
       required this.lon,
-      required this.description,
-      required this.status});
+      required this.description});
 
   Map<String, dynamic> toJson() => {
         'sportsType': sportsType.name,
@@ -35,7 +32,7 @@ class SportsActivity {
         'lat': lat,
         'lon': lon,
         'description': description,
-        'status': status.name
+        
       };
 
   SportsActivity.fromJson(String saID, Map<String, dynamic>? json)
@@ -48,7 +45,7 @@ class SportsActivity {
             lat: json?['lat'],
             lon: json?['lon'],
             description: json?['description'],
-            status: SportsActivityStatus.values.byName(json?['status']));
+            );
 
   Future organizeSportsActivity(String userID) async {
     SportsActivityServiceFirebase sportsActivityServiceFirebase =
@@ -100,5 +97,11 @@ class SportsActivity {
     SportsActivityServiceFirebase sportsActivityServiceFirebase =
         SportsActivityServiceFirebase();
     return sportsActivityServiceFirebase.isJoined(saID, userID);
+  }
+
+  static Stream<List<SportsActivity>> getUpcomingSportsActivity (String userID){
+    SportsActivityServiceFirebase sportsActivityServiceFirebase =
+        SportsActivityServiceFirebase();
+    return sportsActivityServiceFirebase.getUpcomingSportsActivities(userID);
   }
 }

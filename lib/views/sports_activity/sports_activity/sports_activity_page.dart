@@ -6,6 +6,7 @@ import 'package:jomsports/shared/widget/button/bool_button.dart';
 import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_map.dart';
 import 'package:jomsports/views/sports_activity/organize_sports_activity/organize_sports_activity_page.dart';
+import 'package:map_location_picker/map_location_picker.dart';
 
 class SportsActivityPage extends StatelessWidget {
   SportsActivityPage({super.key});
@@ -22,6 +23,7 @@ class SportsActivityPage extends StatelessWidget {
             title: 'Explore Sports Activity',
             navIndex: 1,
             role: Role.sportsLover,
+            currentLatLng: LatLng(sportsActivityController.lat.value,sportsActivityController.lon.value),
             stream: sportsActivityController.getSportsActivityMarkerList(
                 isPreferenceSportsOnly: isPreferenceSportsOnly.value,
                 isFollowedFriendsOnly: isFollowedFriendsOnly.value),

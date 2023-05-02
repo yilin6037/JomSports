@@ -8,7 +8,7 @@ import 'package:jomsports/models/user.dart';
 import 'package:jomsports/shared/constant/firestore.dart';
 import 'package:jomsports/shared/constant/join_status.dart';
 import 'package:jomsports/shared/constant/sports.dart';
-import 'package:jomsports/shared/constant/sports_activity_status.dart';
+import 'package:jomsports/views/sports_activity/sports_activity/sports_activity_page.dart';
 import 'package:jomsports/views/sports_activity/view_sports_activity/view_sports_activity_page.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'dart:ui' as ui;
@@ -31,7 +31,6 @@ class SportsActivityServiceFirebase {
       List<String>? followedFriends}) {
     var snapshot = firestoreInstance
         .collection(FirestoreCollectionConstant.sportsActivity)
-        .where('status', isEqualTo: SportsActivityStatus.open.name)
         .snapshots();
 
     return snapshot.asyncMap((snapshot) async {
@@ -168,16 +167,16 @@ class SportsActivityServiceFirebase {
         .where('saID', isEqualTo: saID)
         .snapshots()
         .asyncMap((snapshot) async {
-      for (var doc in snapshot.docs) {
-        if (userID == doc['userID']) {
-          return doc.id;
-        }
-      }
       if (snapshot.docs.length == 1) {
         await firestoreInstance
             .collection(FirestoreCollectionConstant.sportsActivity)
             .doc(saID)
             .delete();
+      }
+      for (var doc in snapshot.docs) {
+        if (userID == doc['userID']) {
+          return doc.id;
+        }
       }
     }).first;
 
@@ -233,5 +232,29 @@ class SportsActivityServiceFirebase {
     return await firestoreInstance
         .collection(FirestoreCollectionConstant.sportsActivityComment)
         .add(comment.toJson());
+  }
+
+  Stream<List<SportsActivity>> getUpcomingSportsActivities(String userID) {
+    return firestoreInstance
+        .collection(FirestoreCollectionConstant.joinSportsActivity)
+        .where('userID', isEqualTo: userID)
+        .snapshots()
+        .asyncMap((snapshot) async {
+      List<SportsActivity> sportsActivityList = [];
+
+      for (var doc in snapshot.docs) {
+        SportsActivity? sportsActivity =
+            await SportsActivity.getSportsActivity(doc.data()['saID']);
+        if (sportsActivity == null) {
+          continue;
+        }
+        if (isWithinDate(sportsActivity.dateTime)) {
+          sportsActivityList.add(sportsActivity);
+        }
+      }
+      sportsActivityList.sort((a, b) =>
+          DateTime.parse(a.dateTime).compareTo(DateTime.parse(b.dateTime)));
+      return sportsActivityList;
+    });
   }
 }

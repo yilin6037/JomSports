@@ -8,7 +8,6 @@ import 'package:jomsports/services/map_location_picker_service.dart';
 import 'package:jomsports/shared/constant/join_status.dart';
 import 'package:jomsports/shared/constant/map.dart';
 import 'package:jomsports/shared/constant/sports.dart';
-import 'package:jomsports/shared/constant/sports_activity_status.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
@@ -64,15 +63,15 @@ class SportsActivityController extends GetxController {
       return;
     }
     SportsActivity sportsActivity = SportsActivity(
-        saID: '',
-        sportsType: sportsTypeValue!,
-        dateTime: dateTimeValue!,
-        maxParticipants: int.parse(maxParticipantsTextController.text),
-        address: addressTextController.text,
-        lat: lat.value,
-        lon: lon.value,
-        description: descriptionTextController.text,
-        status: SportsActivityStatus.open);
+      saID: '',
+      sportsType: sportsTypeValue!,
+      dateTime: dateTimeValue!,
+      maxParticipants: int.parse(maxParticipantsTextController.text),
+      address: addressTextController.text,
+      lat: lat.value,
+      lon: lon.value,
+      description: descriptionTextController.text,
+    );
     return await sportsActivity
         .organizeSportsActivity(userController.currentUser.userID);
   }
@@ -164,5 +163,10 @@ class SportsActivityController extends GetxController {
   void initCommentForm() {
     commentTextController = TextEditingController();
     commentTextController = TextEditingController();
+  }
+
+  //sports lover home
+  Stream<List<SportsActivity>> getUpcomingSportsActivity(){
+    return SportsActivity.getUpcomingSportsActivity(userController.currentUser.userID);
   }
 }
