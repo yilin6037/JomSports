@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/sports_activity_controller.dart';
-import 'package:jomsports/controllers/user_controller.dart';
 import 'package:jomsports/models/sports_activity.dart';
 import 'package:jomsports/models/sports_lover.dart';
 import 'package:jomsports/models/user.dart';
@@ -11,7 +10,7 @@ class ParticipantListWidget extends StatelessWidget {
   ParticipantListWidget({super.key});
 
   final SportsActivityController sportsActivityController =
-      Get.put(tag: 'sportsActivityController', SportsActivityController());
+      Get.find(tag: 'sportsActivityController');
 
   @override
   Widget build(BuildContext context) {

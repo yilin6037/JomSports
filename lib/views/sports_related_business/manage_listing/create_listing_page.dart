@@ -46,10 +46,12 @@ class CreateListingPage extends StatelessWidget {
                             ? ItemForm(
                                 buttonText: 'Add',
                                 onSubmitted: listingController.addItem,
+                                formKey: listingController.addItemFormKey,
                               )
                             : SportsFacilityForm(
                                 buttonText: 'Add',
                                 onSubmitted: listingController.addSF,
+                                formKey: listingController.addFacilityFormKey,
                               ),
                       ),
                     ],

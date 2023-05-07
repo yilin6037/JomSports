@@ -39,10 +39,12 @@ class EditListingPage extends StatelessWidget {
                             ? ItemForm(
                                 buttonText: 'Save',
                                 onSubmitted: listingController.editItem,
+                                formKey: listingController.editItemFormKey,
                               )
                             : SportsFacilityForm(
                                 buttonText: 'Save',
                                 onSubmitted: listingController.editSF,
+                                formKey: listingController.editFacilityFormKey,
                               ),
                       ),
                     ],

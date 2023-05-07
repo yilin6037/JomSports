@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/listing_controller.dart';
-import 'package:jomsports/controllers/sports_related_business_controller.dart';
 import 'package:jomsports/shared/constant/textformfield_validator.dart';
 import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:jomsports/shared/widget/form/textformfield.dart';
 
 class ItemForm extends StatelessWidget {
-  ItemForm({super.key, required this.buttonText, required this.onSubmitted});
+  ItemForm({super.key, required this.buttonText, required this.onSubmitted, required this.formKey});
 
   final ListingController listingController =
       Get.find(tag: 'listingController');
   final String buttonText;
   final Function() onSubmitted;
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: listingController.itemFormKey,
+      key: formKey,
       child: Column(
         children: [
           SharedTextFormField(
@@ -47,7 +47,7 @@ class ItemForm extends StatelessWidget {
           // submit button
           SharedButton(
               onPressed: () {
-                if (listingController.itemFormKey.currentState!.validate()) {
+                if (formKey.currentState!.validate()) {
                   onSubmitted();
                 }
               },

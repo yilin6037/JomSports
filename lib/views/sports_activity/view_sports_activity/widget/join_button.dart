@@ -9,7 +9,7 @@ class JoinButton extends StatelessWidget {
   JoinButton({super.key});
 
   final SportsActivityController sportsActivityController =
-      Get.put(tag: 'sportsActivityController', SportsActivityController());
+      Get.find(tag: 'sportsActivityController');
 
   @override
   Widget build(BuildContext context) {

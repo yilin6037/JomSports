@@ -22,13 +22,13 @@ class ListingController extends GetxController {
     listingPicture = XFile(imageSelected.path);
   }
 
-  GlobalKey<FormState> itemFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> addItemFormKey = GlobalKey<FormState>();
   TextEditingController itemNameTextController = TextEditingController();
   TextEditingController itemDescriptionTextController = TextEditingController();
   RxBool itemAvailability = RxBool(true);
 
   void initItemForm() {
-    itemFormKey = GlobalKey<FormState>();
+    addItemFormKey = GlobalKey<FormState>();
     itemNameTextController = TextEditingController();
     itemDescriptionTextController = TextEditingController();
     itemAvailability = RxBool(true);
@@ -52,7 +52,7 @@ class ListingController extends GetxController {
     initSFForm();
   }
 
-  GlobalKey<FormState> facilityFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> addFacilityFormKey = GlobalKey<FormState>();
   TextEditingController facilityNameTextController = TextEditingController();
   TextEditingController facilityDescriptionTextController =
       TextEditingController();
@@ -66,7 +66,7 @@ class ListingController extends GetxController {
       List.generate(7, (index) => RxString(''));
 
   void initSFForm() {
-    facilityFormKey = GlobalKey<FormState>();
+    addFacilityFormKey = GlobalKey<FormState>();
     facilityNameTextController = TextEditingController();
     facilityDescriptionTextController = TextEditingController();
 
@@ -113,14 +113,15 @@ class ListingController extends GetxController {
 
   //edit
   Item? selectedItem;
+  GlobalKey<FormState> editItemFormKey = GlobalKey<FormState>();
   Future initEditItemForm(String listingID) async {
+    editItemFormKey = GlobalKey<FormState>();
     selectedItem = await Item.getListing(listingID);
     if (selectedItem == null) {
       SharedDialog.errorDialog();
       Get.back();
     }
     listingChoice.value = ListingType.item;
-    itemFormKey = GlobalKey<FormState>();
     itemNameTextController =
         TextEditingController(text: selectedItem!.itemName);
     itemDescriptionTextController =
@@ -137,14 +138,15 @@ class ListingController extends GetxController {
   }
 
   SportsFacility? selectedSF;
+  GlobalKey<FormState> editFacilityFormKey = GlobalKey<FormState>();
   Future initEditSFForm(String listingID) async {
+    editFacilityFormKey = GlobalKey<FormState>();
     selectedSF = await SportsFacility.getListing(listingID);
     if (selectedSF == null) {
       SharedDialog.errorDialog();
       Get.back();
     }
     listingChoice.value = ListingType.facility;
-    facilityFormKey = GlobalKey<FormState>();
     facilityNameTextController =
         TextEditingController(text: selectedSF!.facilityName);
     facilityDescriptionTextController =
@@ -182,6 +184,7 @@ class ListingController extends GetxController {
     initSFForm();
     SharedDialog.directDialog(
         'Success', 'Listing is edited successfully!', ListingPage());
+    editItemFormKey = GlobalKey<FormState>();
   }
 
   Future editSF() async {
@@ -205,6 +208,7 @@ class ListingController extends GetxController {
     initSFForm();
     SharedDialog.directDialog(
         'Success', 'Listing is edited successfully!', ListingPage());
+    editFacilityFormKey = GlobalKey<FormState>();
   }
 
   Future deleteItem(Item item) async {
@@ -246,7 +250,7 @@ class ListingController extends GetxController {
     return await slotUnavailable.addSlotUnavailable();
   }
 
-  Future deleteSlotUnavailable(SlotUnavailable slotUnavailable) async{
+  Future deleteSlotUnavailable(SlotUnavailable slotUnavailable) async {
     return await slotUnavailable.deleteSlotUnavailable();
   }
 }

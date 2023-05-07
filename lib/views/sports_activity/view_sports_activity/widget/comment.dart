@@ -10,7 +10,7 @@ class CommentWidget extends StatelessWidget {
   CommentWidget({super.key});
 
   final SportsActivityController sportsActivityController =
-      Get.put(tag: 'sportsActivityController', SportsActivityController());
+      Get.find(tag: 'sportsActivityController');
 
   @override
   Widget build(BuildContext context) {

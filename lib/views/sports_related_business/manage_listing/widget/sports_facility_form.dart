@@ -9,18 +9,19 @@ import 'package:jomsports/shared/widget/form/textformfield.dart';
 
 class SportsFacilityForm extends StatelessWidget {
   SportsFacilityForm(
-      {super.key, required this.buttonText, required this.onSubmitted});
+      {super.key, required this.buttonText, required this.onSubmitted, required this.formKey});
 
   final ListingController listingController =
       Get.find(tag: 'listingController');
 
   final String buttonText;
   final Function() onSubmitted;
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: listingController.facilityFormKey,
+      key: formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
@@ -104,7 +105,7 @@ class SportsFacilityForm extends StatelessWidget {
           // submit button
           SharedButton(
               onPressed: () {
-                if (listingController.facilityFormKey.currentState!
+                if (formKey.currentState!
                     .validate()) {
                   bool isValidate = true;
                   for (var i = 0; i < 7; i++) {

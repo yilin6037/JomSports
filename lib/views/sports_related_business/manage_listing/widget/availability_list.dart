@@ -44,7 +44,7 @@ class AvailabilityListWidget extends StatelessWidget {
                                                 .selectedDate.value.weekday -
                                             1]
                                         .openHour ||
-                                index >
+                                index >=
                                     listingController
                                         .selectedSF!
                                         .operatingHourList[listingController
