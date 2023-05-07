@@ -76,11 +76,11 @@ class RegisterRolePage extends StatelessWidget {
     userController.cleanProfileData();
     switch (role) {
       case Role.sportsLover:
-        Get.to(RegisterSportsLoverPage());
+        Get.to(() =>RegisterSportsLoverPage());
         break;
       case Role.sportsRelatedBusiness:
         await userController.initMap();
-        Get.to(RegisterSportsRelatedBusinessPage());
+        Get.to(() =>RegisterSportsRelatedBusinessPage());
         break;
       case Role.admin:
         SharedDialog.errorDialog();

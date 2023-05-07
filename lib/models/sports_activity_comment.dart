@@ -17,7 +17,6 @@ class SportsActivityComment {
   });
 
   Map<String, dynamic> toJson() => {
-        'saCommentID': saCommentID,
         'content': content,
         'dateTime': dateTime,
         'saID': saID,

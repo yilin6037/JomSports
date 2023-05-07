@@ -56,7 +56,7 @@ class SportsRelatedBusinessProfileForm extends StatelessWidget {
           ),
           Obx(() => Text(
                 mapValidationMessage.value,
-                style: const TextStyle(color: Color(ColorConstant.danger)),
+                style: const TextStyle(color: Color(ColorConstant.dangerText)),
               )),
 
           // register button

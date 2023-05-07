@@ -28,4 +28,29 @@ class SharedDialog {
             },
             text: 'Ok'));
   }
+
+  static void confirmationDialog(
+      {String title = 'Confirm Dialog',
+      String message = 'Are you sure?',
+      required Function onOK,
+      required Function onCancel}) {
+    Get.defaultDialog(
+      title: title,
+      middleText: message,
+      confirm: SharedButton(
+        onPressed: () {
+          onOK();
+          Get.back();
+        },
+        text: 'Ok',
+        danger: true,
+      ),
+      cancel: SharedButton(
+          onPressed: () {
+            onCancel();
+            Get.back();
+          },
+          text: 'Cancel'),
+    );
+  }
 }

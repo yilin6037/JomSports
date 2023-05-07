@@ -3,5 +3,6 @@ enum ValidatorType{
   required,
   email,
   phoneNo,
-  integer
+  integer,
+  hour
 }

@@ -9,13 +9,15 @@ class SharedButton extends StatelessWidget {
       this.danger = false,
       this.width = 150,
       this.disable = false,
-      this.fontSize = 20});
+      this.fontSize = 20,
+      this.height});
   final Function() onPressed;
   final String text;
   final bool danger;
   final double width;
   final bool disable;
   final double fontSize;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,8 @@ class SharedButton extends StatelessWidget {
         onPressed: disable ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(backgroundColor),
-          fixedSize: Size.fromWidth(width),
+          fixedSize:
+              height != null ? Size(width, height!) : Size.fromWidth(width),
         ),
         child: Text(
           text,

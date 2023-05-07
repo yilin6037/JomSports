@@ -40,7 +40,7 @@ class SharedImagePicker extends StatelessWidget {
               : (imageUrlObs.value.isNotEmpty
                   ? buildImage(imageUrlObs.value)
                   : const Text(
-                      'No Profile Picture Uploaded',
+                      'No Picture Uploaded',
                       textAlign: TextAlign.center,
                     )),
         ),

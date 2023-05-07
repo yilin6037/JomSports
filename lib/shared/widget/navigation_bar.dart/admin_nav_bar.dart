@@ -15,7 +15,7 @@ class AdminNavBar extends StatelessWidget {
       onTap: (value) {
         switch (value) {
           case 0:
-            Get.to(HomePage());
+            Get.to(() =>HomePage());
             break;
           case 1:
             //authentication
@@ -24,7 +24,7 @@ class AdminNavBar extends StatelessWidget {
             //forum
             break;
           default:
-            Get.to(HomePage());
+            Get.to(() =>HomePage());
             break;
         }
       },

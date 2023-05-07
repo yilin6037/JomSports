@@ -8,7 +8,6 @@ import 'package:jomsports/models/user.dart';
 import 'package:jomsports/shared/constant/firestore.dart';
 import 'package:jomsports/shared/constant/join_status.dart';
 import 'package:jomsports/shared/constant/sports.dart';
-import 'package:jomsports/views/sports_activity/sports_activity/sports_activity_page.dart';
 import 'package:jomsports/views/sports_activity/view_sports_activity/view_sports_activity_page.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'dart:ui' as ui;
@@ -94,7 +93,7 @@ class SportsActivityServiceFirebase {
           onTap: () async {
             await sportsActivityController
                 .initSportsActivity(sportsActivity.saID);
-            Get.to(ViewSportsActivityPage());
+            Get.to(() =>ViewSportsActivityPage());
           }),
       icon: BitmapDescriptor.fromBytes(
           await getBytesFromAsset(sportsActivity.sportsType.mapMarker, 200)),

@@ -66,7 +66,7 @@ class LoginPage extends StatelessWidget {
                                 TextButton(
                                     onPressed: () {
                                       userController.cleanForgotPasswordData();
-                                      Get.to(ForgotPasswordPage());
+                                      Get.to(() =>ForgotPasswordPage());
                                       userController.cleanLoginData();
                                     },
                                     child: const Text('Forgot Password')),
@@ -91,7 +91,7 @@ class LoginPage extends StatelessWidget {
                   const Text('or'),
                   SharedButton(
                       onPressed: () {
-                        Get.to(RegisterRolePage());
+                        Get.to(() =>RegisterRolePage());
                       },
                       text: 'Register now')
                 ],

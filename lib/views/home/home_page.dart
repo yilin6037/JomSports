@@ -69,10 +69,10 @@ class HomePage extends StatelessWidget {
                                       switch (
                                           userController.currentUser.userType) {
                                         case Role.sportsLover:
-                                          Get.to(EditProfileSportsLoverPage());
+                                          Get.to(() =>EditProfileSportsLoverPage());
                                           break;
                                         case Role.sportsRelatedBusiness:
-                                          Get.to(
+                                          Get.to(() =>
                                               EditProfileSportsRelatedBusinessPage());
                                           break;
                                         default:
@@ -97,10 +97,11 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: SportsLoverHome(),
-                ),
+                if (userController.currentUser.userType == Role.sportsLover)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: SportsLoverHome(),
+                  ),
               ],
             ),
           ),

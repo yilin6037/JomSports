@@ -16,11 +16,11 @@ class SportsLoverNavBar extends StatelessWidget {
       onTap: (value) {
         switch (value) {
           case 0:
-            Get.to(HomePage());
+            Get.to(() =>HomePage());
             break;
           case 1:
             //sport activity
-            Get.to(SportsActivityPage());
+            Get.to(() =>SportsActivityPage());
             break;
           case 2:
             //sports shop
@@ -29,7 +29,7 @@ class SportsLoverNavBar extends StatelessWidget {
             //forum
             break;
           default:
-            Get.to(HomePage());
+            Get.to(() =>HomePage());
             break;
         }
       },

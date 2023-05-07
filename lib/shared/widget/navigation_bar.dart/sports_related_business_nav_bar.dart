@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/views/home/home_page.dart';
+import 'package:jomsports/views/sports_related_business/manage_listing/listing_page.dart';
 
 class SportsRelatedBusinessNavBar extends StatelessWidget {
   const SportsRelatedBusinessNavBar({super.key, required this.currentIndex});
@@ -15,16 +16,17 @@ class SportsRelatedBusinessNavBar extends StatelessWidget {
       onTap: (value) {
         switch (value) {
           case 0:
-            Get.to(HomePage());
+            Get.to(() =>HomePage());
             break;
           case 1:
             //listing
+            Get.to(() =>ListingPage());
             break;
           case 2:
             //forum
             break;
           default:
-            Get.to(HomePage());
+            Get.to(() =>HomePage());
             break;
         }
       },

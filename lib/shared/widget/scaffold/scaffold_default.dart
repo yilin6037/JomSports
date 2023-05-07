@@ -50,7 +50,10 @@ class DefaultScaffold extends StatelessWidget {
                 ? SingleChildScrollView(
                     child: Center(child: body),
                   )
-                : Center(child: body),
+                : SizedBox(
+                  width: double.maxFinite,
+                    child: body,
+                  ),
           ),
         ],
       ),

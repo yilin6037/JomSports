@@ -1,3 +1,5 @@
+import 'package:jomsports/models/slot_unavailable.dart';
+
 class FirestoreCollectionConstant{
   static const user = 'User';
   static const sportsLover = 'SportsLover';
@@ -6,4 +8,10 @@ class FirestoreCollectionConstant{
   static const sportsActivity = 'SportsActivity';
   static const joinSportsActivity = 'JoinSportsActivity';
   static const sportsActivityComment = 'SportsActivityComment';
+
+  static const listing = 'Listing';
+  static const item = 'Item';
+  static const sportsFacility = 'SportsFacility';
+  static const appointment = 'Appointment';
+  static const slotUnavailable = 'SlotUnavailable';
 }

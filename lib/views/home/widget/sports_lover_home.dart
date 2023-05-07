@@ -95,7 +95,7 @@ class SportsLoverHome extends StatelessWidget {
                           onTap: () async {
                             await sportsActivityController.initSportsActivity(
                                 sportsActivityList[index].saID);
-                            Get.to(ViewSportsActivityPage());
+                            Get.to(() =>ViewSportsActivityPage());
                           },
                         ),
                         const Divider()

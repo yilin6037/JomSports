@@ -3,18 +3,19 @@ import 'package:get/get.dart';
 import 'package:jomsports/shared/constant/textformfield_validator.dart';
 
 class SharedTextFormField extends StatelessWidget {
-  const SharedTextFormField(
-      {Key? key,
-      this.controller,
-      this.hintText,
-      this.labelText,
-      this.initialValue,
-      this.obscureText = false,
-      this.keyboard = TextInputType.text,
-      this.errorText = 'This field is required',
-      this.validator = ValidatorType.none,
-      this.enabled = true, this.maxLines = 1})
-      : super(key: key);
+  const SharedTextFormField({
+    Key? key,
+    this.controller,
+    this.hintText,
+    this.labelText,
+    this.initialValue,
+    this.obscureText = false,
+    this.keyboard = TextInputType.text,
+    this.errorText = 'This field is required',
+    this.validator = ValidatorType.none,
+    this.enabled = true,
+    this.maxLines = 1,
+  }) : super(key: key);
   final TextEditingController? controller;
   final String? hintText; //placeholder
   final String? labelText; //label
@@ -73,6 +74,17 @@ class SharedTextFormField extends StatelessWidget {
               }
               if (!GetUtils.isNumericOnly(value)) {
                 return 'Please enter numeric number';
+              }
+              break;
+            case ValidatorType.hour:
+              if (value == '') {
+                return 'This field is required';
+              }
+              if (!GetUtils.isNumericOnly(value)) {
+                return 'Not a valid hour';
+              }
+              if (int.parse(value) < 0 || int.parse(value) > 24) {
+                return 'Not a valid hour';
               }
               break;
           }

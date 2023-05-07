@@ -12,14 +12,22 @@ class StorageServiceFirebase {
   }
 
   Future<String> getImage(String destination, String fileName) async {
-    try{
+    try {
       final ref = firebaseStorage.ref('$destination$fileName');
       String imageUrl = await ref.getDownloadURL();
       return imageUrl;
-    }catch (e){
+    } catch (e) {
       print(e.toString());
     }
     return '';
-    
+  }
+
+  Future deleteFile(String destination, String fileName) async {
+    try {
+      final ref = firebaseStorage.ref('$destination$fileName');
+      await ref.delete();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
