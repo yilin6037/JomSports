@@ -34,7 +34,7 @@ class MapScaffold extends StatelessWidget {
     initScaffold();
     final currentLocationCamera = CameraPosition(
       target: currentLatLng,
-      zoom: 14.4746,
+      zoom: 17,
     );
     return Scaffold(
       backgroundColor: const Color(ColorConstant.scaffoldBackgroundColor),

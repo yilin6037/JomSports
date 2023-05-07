@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/sports_activity_controller.dart';
+import 'package:jomsports/controllers/sports_related_business_controller.dart';
 import 'package:jomsports/models/sports_activity.dart';
 import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:jomsports/views/sports_activity/sports_activity/sports_activity_page.dart';
@@ -11,6 +12,10 @@ class SportsLoverHome extends StatelessWidget {
 
   final SportsActivityController sportsActivityController =
       Get.put(tag: 'sportsActivityController', SportsActivityController());
+  final SportsRelatedBusinessController sportsRelatedBusinessController =
+      Get.put(
+          tag: 'sportsRelatedBusinessController',
+          SportsRelatedBusinessController());
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +100,7 @@ class SportsLoverHome extends StatelessWidget {
                           onTap: () async {
                             await sportsActivityController.initSportsActivity(
                                 sportsActivityList[index].saID);
-                            Get.to(() =>ViewSportsActivityPage());
+                            Get.to(() => ViewSportsActivityPage());
                           },
                         ),
                         const Divider()

@@ -5,6 +5,7 @@ import 'package:jomsports/models/item.dart';
 import 'package:jomsports/models/slot_unavailable.dart';
 import 'package:jomsports/models/sports_facility.dart';
 import 'package:jomsports/shared/constant/listing_type.dart';
+import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
 import 'package:jomsports/views/sports_related_business/manage_listing/listing_page.dart';
 import 'user_controller.dart';
@@ -39,7 +40,7 @@ class ListingController extends GetxController {
   Future addItem() async {
     Item item = Item(
         listingID: '',
-        userID: userController.currentUser.userID,
+        userID: sportsRelatedBusinessID!,
         listingType: ListingType.item,
         itemName: itemNameTextController.text,
         description: itemDescriptionTextController.text,
@@ -89,7 +90,7 @@ class ListingController extends GetxController {
 
     SportsFacility sportsFacility = SportsFacility(
         listingID: '',
-        userID: userController.currentUser.userID,
+        userID: sportsRelatedBusinessID!,
         listingType: ListingType.facility,
         facilityName: facilityNameTextController.text,
         description: facilityDescriptionTextController.text,
@@ -98,17 +99,31 @@ class ListingController extends GetxController {
     await sportsFacility.createListing(listingPicture);
     SharedDialog.directDialog(
         'Success', 'Listing is added successfully!', ListingPage());
+    await userController.currentUser.setHasSF(true);
     initItemForm();
     initSFForm();
   }
 
   //read
+  String? sportsRelatedBusinessID;
+  void initSportsRelatedBusiness(String userID){
+
+      sportsRelatedBusinessID = userID;
+    
+  }
+
   Stream<List<Item>> getItemList() {
-    return Item.getItemList(userController.currentUser.userID);
+    if(userController.currentUser.userType == Role.sportsRelatedBusiness){
+      initSportsRelatedBusiness(userController.currentUser.userID);
+    }
+    return Item.getItemList(sportsRelatedBusinessID!);
   }
 
   Stream<List<SportsFacility>> getSFList() {
-    return SportsFacility.getSFList(userController.currentUser.userID);
+    if(userController.currentUser.userType == Role.sportsRelatedBusiness){
+      initSportsRelatedBusiness(userController.currentUser.userID);
+    }
+    return SportsFacility.getSFList(sportsRelatedBusinessID!);
   }
 
   //edit
@@ -173,7 +188,7 @@ class ListingController extends GetxController {
   Future editItem() async {
     Item item = Item(
         listingID: selectedItem!.listingID,
-        userID: userController.currentUser.userID,
+        userID: sportsRelatedBusinessID!,
         listingType: ListingType.item,
         itemName: itemNameTextController.text,
         description: itemDescriptionTextController.text,
@@ -197,7 +212,7 @@ class ListingController extends GetxController {
 
     SportsFacility sportsFacility = SportsFacility(
         listingID: selectedSF!.listingID,
-        userID: userController.currentUser.userID,
+        userID: sportsRelatedBusinessID!,
         listingType: ListingType.facility,
         facilityName: facilityNameTextController.text,
         description: facilityDescriptionTextController.text,
@@ -216,8 +231,11 @@ class ListingController extends GetxController {
     SharedDialog.alertDialog('Success', 'Listing is deleted successfully');
   }
 
-  Future deleteSF(SportsFacility sportsFacility) async {
+  Future deleteSF(SportsFacility sportsFacility, bool isLast) async {
     await sportsFacility.deleteListing();
+    if (isLast) {
+      await userController.currentUser.setHasSF(false);
+    }
     SharedDialog.alertDialog('Success', 'Listing is deleted successfully');
   }
 

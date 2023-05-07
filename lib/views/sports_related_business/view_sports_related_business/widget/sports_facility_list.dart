@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/listing_controller.dart';
 import 'package:jomsports/models/sports_facility.dart';
-import 'package:jomsports/shared/dialog/dialog.dart';
-import 'package:jomsports/views/sports_related_business/manage_listing/availability_page.dart';
-import 'package:jomsports/views/sports_related_business/manage_listing/edit_listing_page.dart';
+import 'package:jomsports/views/sports_related_business/view_sports_related_business/availability_page.dart';
 
 class SportsFacilityList extends StatelessWidget {
   SportsFacilityList({super.key});
@@ -28,7 +26,7 @@ class SportsFacilityList extends StatelessWidget {
           final sfList = snapshot.data!;
           if (sfList.isEmpty) {
             return const Center(
-                child: Text('No sports facility yet. Add some!'));
+                child: Text('No sports facility yet.'));
           } else {
             return ListView.builder(
                 itemCount: sfList.length,
@@ -45,42 +43,13 @@ class SportsFacilityList extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(sportsFacility.description),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                IconButton(
-                                  icon:
-                                      const Icon(Icons.calendar_month_outlined),
-                                  onPressed: () async {
-                                    await listingController.initAvailability(
-                                        sportsFacility.listingID);
-                                    Get.to(() => AvailabilityPage());
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () async {
-                                    await listingController.initEditSFForm(
-                                        sportsFacility.listingID);
-                                    Get.to(() => EditListingPage());
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    SharedDialog.confirmationDialog(
-                                      title: 'Delete Item',
-                                      message:
-                                          'Are you sure to delete ${sportsFacility.facilityName} listing?',
-                                      onCancel: () {},
-                                      onOK: () async {
-                                        await listingController.deleteSF(
-                                            sportsFacility, sfList.length == 1);
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
+                            IconButton(
+                              icon: const Icon(Icons.calendar_month_outlined),
+                              onPressed: () async {
+                                await listingController
+                                    .initAvailability(sportsFacility.listingID);
+                                Get.to(() => AvailabilityPage());
+                              },
                             ),
                           ],
                         ),

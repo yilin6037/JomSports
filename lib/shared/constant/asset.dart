@@ -18,4 +18,5 @@ class AssetConstant{
   static const tableTennis = '$assets$mapMarker/table_tennis.png';
   static const tennis = '$assets$mapMarker/tennis.png';
   static const volleyball = '$assets$mapMarker/volleyball.png';
+  static const shop = '$assets$mapMarker/shop.png';
 }
