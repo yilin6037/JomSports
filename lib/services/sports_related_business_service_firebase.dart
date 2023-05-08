@@ -1,17 +1,10 @@
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:jomsports/controllers/sports_activity_controller.dart';
-import 'package:jomsports/controllers/sports_related_business_controller.dart';
 import 'package:jomsports/models/appointment.dart';
-import 'package:jomsports/models/sports_activity.dart';
 import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/models/user.dart';
 import 'package:jomsports/shared/constant/asset.dart';
 import 'package:jomsports/shared/constant/firestore.dart';
-import 'package:jomsports/views/sports_activity/view_sports_activity/view_sports_activity_page.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'dart:ui' as ui;
 
@@ -62,8 +55,6 @@ class SportsRelatedBusinessServiceFirebase {
   }
 
   Future<Marker> initMarker(SportsRelatedBusiness sportsRelatedBusiness, Function(SportsRelatedBusiness) onTap) async {
-    final SportsRelatedBusinessController sportsRelatedBusinessController =
-        Get.put(tag: 'sportsRelatedBusinessController', SportsRelatedBusinessController());
     return Marker(
       markerId: MarkerId(sportsRelatedBusiness.userID),
       position: LatLng(sportsRelatedBusiness.lat, sportsRelatedBusiness.lon),

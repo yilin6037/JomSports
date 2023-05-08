@@ -19,48 +19,54 @@ class SportsActivityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => MapScaffold(
-            title: 'Explore Sports Activity',
-            navIndex: 1,
-            role: Role.sportsLover,
-            currentLatLng: LatLng(sportsActivityController.lat.value,sportsActivityController.lon.value),
-            stream: sportsActivityController.getSportsActivityMarkerList(
-                isPreferenceSportsOnly: isPreferenceSportsOnly.value,
-                isFollowedFriendsOnly: isFollowedFriendsOnly.value),
-            children: [
-              Positioned(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SharedBoolButton(
-                      tapped: isPreferenceSportsOnly.value,
-                      onPressed: () {
-                        isPreferenceSportsOnly.value =
-                            !(isPreferenceSportsOnly.value);
-                      },
-                      text: 'Preference Sports',
-                    ),
-                    SharedBoolButton(
-                      tapped: isFollowedFriendsOnly.value,
-                      onPressed: () {
-                        isFollowedFriendsOnly.value =
-                            !(isFollowedFriendsOnly.value);
-                      },
-                      text: 'Followed Friends',
-                    ),
-                    const SizedBox(width: 30,)
-                  ],
-                ),
+    return Obx(() {
+      var currentLatLng = LatLng(sportsActivityController.lat.value,
+          sportsActivityController.lon.value).obs;
+      return MapScaffold(
+          title: 'Explore Sports Activity',
+          navIndex: 1,
+          role: Role.sportsLover,
+          currentLatLng: currentLatLng.value,
+          stream: sportsActivityController.getSportsActivityMarkerList(
+              isPreferenceSportsOnly: isPreferenceSportsOnly.value,
+              isFollowedFriendsOnly: isFollowedFriendsOnly.value),
+          children: [
+            Positioned(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SharedBoolButton(
+                    tapped: isPreferenceSportsOnly.value,
+                    onPressed: () {
+                      isPreferenceSportsOnly.value =
+                          !(isPreferenceSportsOnly.value);
+                    },
+                    text: 'Preference Sports',
+                  ),
+                  SharedBoolButton(
+                    tapped: isFollowedFriendsOnly.value,
+                    onPressed: () {
+                      isFollowedFriendsOnly.value =
+                          !(isFollowedFriendsOnly.value);
+                    },
+                    text: 'Followed Friends',
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  )
+                ],
               ),
-              Positioned(
-                  bottom: 50,
-                  child: SharedButton(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      onPressed: () {
-                        sportsActivityController.cleanForm();
-                        Get.to(() =>OrganizeSportsActivity());
-                      },
-                      text: 'Organize Sports Activity')),
-            ]));
+            ),
+            Positioned(
+                bottom: 50,
+                child: SharedButton(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    onPressed: () {
+                      sportsActivityController.cleanForm();
+                      Get.to(() => OrganizeSportsActivity());
+                    },
+                    text: 'Organize Sports Activity')),
+          ]);
+    });
   }
 }

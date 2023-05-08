@@ -8,12 +8,6 @@ import 'package:jomsports/views/sports_related_business/view_sports_related_busi
 import 'package:map_location_picker/map_location_picker.dart';
 
 class SportsRelatedBusinessController extends GetxController {
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    await initMap();
-  }
-
   //sports shop map
   RxDouble lat = RxDouble(0);
   RxDouble lon = RxDouble(0);

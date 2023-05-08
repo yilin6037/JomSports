@@ -14,12 +14,6 @@ import 'package:map_location_picker/map_location_picker.dart';
 class SportsActivityController extends GetxController {
   final UserController userController = Get.find(tag: 'userController');
 
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    await initMap();
-  }
-
   //organize
   GlobalKey<FormState> organizeFormKey = GlobalKey<FormState>();
   SportsType? sportsTypeValue;
@@ -166,7 +160,8 @@ class SportsActivityController extends GetxController {
   }
 
   //sports lover home
-  Stream<List<SportsActivity>> getUpcomingSportsActivity(){
-    return SportsActivity.getUpcomingSportsActivity(userController.currentUser.userID);
+  Stream<List<SportsActivity>> getUpcomingSportsActivity() {
+    return SportsActivity.getUpcomingSportsActivity(
+        userController.currentUser.userID);
   }
 }

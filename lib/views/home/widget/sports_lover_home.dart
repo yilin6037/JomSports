@@ -12,10 +12,6 @@ class SportsLoverHome extends StatelessWidget {
 
   final SportsActivityController sportsActivityController =
       Get.put(tag: 'sportsActivityController', SportsActivityController());
-  final SportsRelatedBusinessController sportsRelatedBusinessController =
-      Get.put(
-          tag: 'sportsRelatedBusinessController',
-          SportsRelatedBusinessController());
 
   @override
   Widget build(BuildContext context) {

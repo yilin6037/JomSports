@@ -17,12 +17,12 @@ class SportsRelatedBusinessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       var currentLatLng = LatLng(sportsRelatedBusinessController.lat.value,
-          sportsRelatedBusinessController.lon.value);
+          sportsRelatedBusinessController.lon.value).obs;
       return MapScaffold(
         title: 'Explore Shops',
         role: Role.sportsLover,
         navIndex: 2,
-        currentLatLng: currentLatLng,
+        currentLatLng: currentLatLng.value,
         stream: sportsRelatedBusinessController.getSportsActivityMarkerList(
             onTap: (sportsRelatedBusiness) =>
                 sportsRelatedBusinessController.initSRB(sportsRelatedBusiness)),
