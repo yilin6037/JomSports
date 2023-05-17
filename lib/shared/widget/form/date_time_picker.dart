@@ -9,13 +9,14 @@ class SharedDateTimePicker extends StatelessWidget {
       this.lastDate,
       required this.onChanged,
       required this.onSaved,
-      this.value});
+      this.value, this.textEditingController});
 
   final String? value;
   final DateTime? firstDate;
   final DateTime? lastDate;
   final Function(String?) onChanged;
   final Function(String?) onSaved;
+  final TextEditingController? textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class SharedDateTimePicker extends StatelessWidget {
       dateMask: DateConstant.dateFormat,
       icon: const Icon(Icons.event),
       initialValue: value,
+      controller: textEditingController,
       firstDate: firstDate,
       lastDate: lastDate,
       validator: (value) {

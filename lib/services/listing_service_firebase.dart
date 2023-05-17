@@ -185,4 +185,30 @@ class ListingServiceFirebase {
         .doc(slotUnavailableID)
         .delete();
   }
+
+  Future<bool> checkSlotUnavailable(
+      String listingID, String date, int slot) async {
+    final snapshot = await firestoreInstance
+        .collection(FirestoreCollectionConstant.slotUnavailable)
+        .where('listingID', isEqualTo: listingID)
+        .get();
+    for (var doc in snapshot.docs) {
+      SlotUnavailable slotUnavailable =
+          SlotUnavailable.fromJson(doc.id, doc.data());
+      if (slotUnavailable.date.substring(0, 10) == date.substring(0, 10) &&
+          slotUnavailable.slot == slot) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<String> getSportsFacilityName(String lisitngID) async {
+    final snapshot = await firestoreInstance
+        .collection(FirestoreCollectionConstant.sportsFacility)
+        .doc(lisitngID)
+        .get();
+
+    return snapshot.data()?['facilityName'] ?? '';
+  }
 }

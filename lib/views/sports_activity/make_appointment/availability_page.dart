@@ -5,7 +5,7 @@ import 'package:jomsports/shared/constant/date.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/widget/form/dropdown_button_form_field.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_default.dart';
-import 'package:jomsports/views/sports_related_business/view_sports_related_business/widget/availability_list.dart';
+import 'package:jomsports/views/sports_activity/make_appointment/widget/availability_list.dart';
 
 class AvailabilityPage extends StatelessWidget {
   AvailabilityPage({super.key});
@@ -16,9 +16,9 @@ class AvailabilityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
-      title: 'Availability of ${listingController.selectedSF!.facilityName}',
-      role: Role.sportsLover,
-      navIndex: 2,
+      title: 'Choose the time slot',
+      role: Role.sportsRelatedBusiness,
+      navIndex: 1,
       scrollable: false,
       body: Stack(
         children: [

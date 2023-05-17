@@ -16,7 +16,6 @@ class ParticipantListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     SportsActivity sportsActivity =
         sportsActivityController.selectedSportsActivity!;
-    SportsLover currentUser = sportsActivityController.userController.currentUser;
     return StreamBuilder<List<User>>(
       stream: sportsActivityController.getParticipants(),
       builder: (context, snapshot) {
@@ -45,12 +44,6 @@ class ParticipantListWidget extends StatelessWidget {
                     physics: const ScrollPhysics(),
                     itemBuilder: (context, index) {
                       User participant = participants[index];
-                      RxBool isFollowed = RxBool(false);
-                      if(currentUser.followedFriends.contains(participant.userID)){
-                        isFollowed.value = true;
-                      }else{
-                        isFollowed.value = false;
-                      }
                       return ListTile(
                         leading: CircleAvatar(
                             radius: 20,
@@ -81,21 +74,7 @@ class ParticipantListWidget extends StatelessWidget {
                               participant.phoneNo,
                               softWrap: true,
                             ),
-                            if(currentUser.userID != participant.userID)
-                              Obx(() => SharedBoolButton(
-                                text: isFollowed.value? 'Followed' : 'Follow',
-                                onPressed: () async {
-                                  if(isFollowed.value){
-                                    currentUser.followedFriends.remove(participant.userID);
-                                    isFollowed.value = false;
-                                  }else{
-                                    currentUser.followedFriends.add(participant.userID);
-                                    isFollowed.value = true;
-                                  }
-                                  await currentUser.editFollowedFriends();
-                                },
-                                tapped: !isFollowed.value,
-                              )),
+                            
                           ],
                         ),
                       );

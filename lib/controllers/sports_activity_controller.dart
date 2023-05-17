@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/user_controller.dart';
+import 'package:jomsports/models/appointment.dart';
+import 'package:jomsports/models/listing.dart';
+import 'package:jomsports/models/slot_unavailable.dart';
 import 'package:jomsports/models/sports_activity.dart';
 import 'package:jomsports/models/sports_activity_comment.dart';
+import 'package:jomsports/models/sports_facility.dart';
+import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/models/user.dart';
 import 'package:jomsports/services/map_location_picker_service.dart';
 import 'package:jomsports/shared/constant/join_status.dart';
@@ -17,7 +22,8 @@ class SportsActivityController extends GetxController {
   //organize
   GlobalKey<FormState> organizeFormKey = GlobalKey<FormState>();
   SportsType? sportsTypeValue;
-  String? dateTimeValue;
+  // RxString dateTimeValue = RxString('');
+  TextEditingController dateTimeTextEditingController = TextEditingController();
   TextEditingController maxParticipantsTextController = TextEditingController();
   TextEditingController descriptionTextController = TextEditingController();
   TextEditingController addressTextController = TextEditingController();
@@ -27,10 +33,12 @@ class SportsActivityController extends GetxController {
   Future<void> cleanForm() async {
     organizeFormKey = GlobalKey<FormState>();
     sportsTypeValue = null;
-    dateTimeValue = null;
+    dateTimeTextEditingController = TextEditingController();
     maxParticipantsTextController = TextEditingController();
     descriptionTextController = TextEditingController();
     addressTextController = TextEditingController();
+    appointment = null;
+    appointmentDetail = RxString('');
     await initMap();
   }
 
@@ -53,21 +61,41 @@ class SportsActivityController extends GetxController {
   }
 
   Future organizeSportsActivity() async {
-    if (sportsTypeValue == null || dateTimeValue == null) {
+    if (sportsTypeValue == null || dateTimeTextEditingController.text == '') {
       return;
     }
     SportsActivity sportsActivity = SportsActivity(
       saID: '',
       sportsType: sportsTypeValue!,
-      dateTime: dateTimeValue!,
+      dateTime: dateTimeTextEditingController.text.substring(0,16),
       maxParticipants: int.parse(maxParticipantsTextController.text),
       address: addressTextController.text,
       lat: lat.value,
       lon: lon.value,
       description: descriptionTextController.text,
     );
-    return await sportsActivity
-        .organizeSportsActivity(userController.currentUser.userID);
+    if (appointment != null) {
+      SlotUnavailable slotUnavailable = SlotUnavailable(
+          slotUnavailableID: '',
+          listingID: appointment!.listingID,
+          date: appointment!.date.substring(0,16),
+          slot: appointment!.slot);
+
+      final isSuccessful = await slotUnavailable.addSlotUnavailable();
+      if (!isSuccessful) {
+        SharedDialog.alertDialog(
+            'The slot is unavailable', 'Please make another appointment');
+        return;
+      }
+      await sportsActivity
+          .organizeSportsActivity(userController.currentUser.userID);
+      appointment!.appointmentID = slotUnavailable.slotUnavailableID;
+      appointment!.saID = sportsActivity.saID;
+      await appointment!.makeAppointment();
+    } else {
+      await sportsActivity
+          .organizeSportsActivity(userController.currentUser.userID);
+    }
   }
 
   //sports activity map
@@ -107,9 +135,17 @@ class SportsActivityController extends GetxController {
     if (selectedSportsActivity == null) {
       SharedDialog.errorDialog();
       Get.back();
+    } else {
+      initCommentForm();
     }
+  }
 
-    initCommentForm();
+  Stream<List<Appointment>> getAppointmentListBySaID(){
+    return Appointment.getAppointmentListBySaID(selectedSportsActivity!.saID);
+  }
+
+  Future<String> getSportsFacilityName(String listingID) async{
+    return await SportsFacility.getSportsFacilityName(listingID);
   }
 
   Stream<List<User>> getParticipants() {
@@ -163,5 +199,23 @@ class SportsActivityController extends GetxController {
   Stream<List<SportsActivity>> getUpcomingSportsActivity() {
     return SportsActivity.getUpcomingSportsActivity(
         userController.currentUser.userID);
+  }
+
+  //make appointment
+  Appointment? appointment;
+  RxString appointmentDetail = RxString('');
+  void setAppointment(Appointment appointment, SportsRelatedBusiness srb,
+      String appointmentDetail) {
+    this.appointment = appointment;
+
+    DateTime dateTime = DateTime.parse(appointment.date);
+    dateTime = dateTime.add(Duration(hours: appointment.slot));
+    dateTimeTextEditingController.text = dateTime.toString().substring(0,16);
+
+    this.appointmentDetail.value = appointmentDetail;
+
+    addressTextController.text = '${srb.name},${srb.address}';
+    lat.value = srb.lat;
+    lon.value = srb.lon;
   }
 }

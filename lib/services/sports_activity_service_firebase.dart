@@ -93,7 +93,7 @@ class SportsActivityServiceFirebase {
           onTap: () async {
             await sportsActivityController
                 .initSportsActivity(sportsActivity.saID);
-            Get.to(() =>ViewSportsActivityPage());
+            Get.to(() => ViewSportsActivityPage());
           }),
       icon: BitmapDescriptor.fromBytes(
           await getBytesFromAsset(sportsActivity.sportsType.mapMarker, 200)),
@@ -160,13 +160,15 @@ class SportsActivityServiceFirebase {
         .add({'userID': userID, 'saID': saID});
   }
 
-  Future leaveSportsActivity(String userID, String saID) async {
+  Future<bool> leaveSportsActivity(String userID, String saID) async {
+    bool isLastParticipant = false;
     var id = await firestoreInstance
         .collection(FirestoreCollectionConstant.joinSportsActivity)
         .where('saID', isEqualTo: saID)
         .snapshots()
         .asyncMap((snapshot) async {
       if (snapshot.docs.length == 1) {
+        isLastParticipant = true;
         await firestoreInstance
             .collection(FirestoreCollectionConstant.sportsActivity)
             .doc(saID)
@@ -179,10 +181,12 @@ class SportsActivityServiceFirebase {
       }
     }).first;
 
-    return await firestoreInstance
+    await firestoreInstance
         .collection(FirestoreCollectionConstant.joinSportsActivity)
         .doc(id)
         .delete();
+
+    return isLastParticipant;
   }
 
   Stream<JoinStatus> isJoined(String saID, String userID) {
@@ -255,5 +259,13 @@ class SportsActivityServiceFirebase {
           DateTime.parse(a.dateTime).compareTo(DateTime.parse(b.dateTime)));
       return sportsActivityList;
     });
+  }
+
+  Future updateSportsActivityByJson(
+      Map<String, dynamic> json, String saID) async {
+    return await firestoreInstance
+        .collection(FirestoreCollectionConstant.sportsActivity)
+        .doc(saID)
+        .update(json);
   }
 }

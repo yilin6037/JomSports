@@ -1,3 +1,6 @@
+import 'package:jomsports/models/appointment.dart';
+import 'package:jomsports/models/slot_unavailable.dart';
+import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/models/user.dart';
 import 'package:jomsports/services/sports_activity_service_firebase.dart';
 import 'package:jomsports/shared/constant/join_status.dart';
@@ -50,7 +53,7 @@ class SportsActivity {
   Future organizeSportsActivity(String userID) async {
     SportsActivityServiceFirebase sportsActivityServiceFirebase =
         SportsActivityServiceFirebase();
-    String saID =
+    saID =
         await sportsActivityServiceFirebase.createSportsActivity(this);
     await sportsActivityServiceFirebase.joinSportsActivity(userID, saID);
   }
@@ -87,10 +90,20 @@ class SportsActivity {
     sportsActivityServiceFirebase.joinSportsActivity(userID, saID);
   }
 
-  Future leaveSportsActivity(String userID) async {
+  Future<bool> leaveSportsActivity(String userID) async {
     SportsActivityServiceFirebase sportsActivityServiceFirebase =
         SportsActivityServiceFirebase();
-    sportsActivityServiceFirebase.leaveSportsActivity(userID, saID);
+    bool isLastParticipant = await sportsActivityServiceFirebase.leaveSportsActivity(userID, saID);
+
+    if(isLastParticipant){
+      List<String> idList = await Appointment.deleteAppointmentBySaID(saID);
+      for (var id in idList) {
+        await SlotUnavailable.deleteSlotUnavailableByID(id);
+      }
+
+    }
+
+    return isLastParticipant;
   }
 
   Stream<JoinStatus> isJoined(String userID) {
@@ -103,5 +116,18 @@ class SportsActivity {
     SportsActivityServiceFirebase sportsActivityServiceFirebase =
         SportsActivityServiceFirebase();
     return sportsActivityServiceFirebase.getUpcomingSportsActivities(userID);
+  }
+
+  static Future updateSportsActivityByAppointment (Appointment appointment, SportsRelatedBusiness srb)async{
+    SportsActivityServiceFirebase sportsActivityServiceFirebase =
+        SportsActivityServiceFirebase();
+    final json = {
+      'dateTime': DateTime.parse( appointment.date).add(Duration(hours: appointment.slot)).toString().substring(0,16),
+      'address': '${srb.name}, ${srb.address}',
+      'lat':srb.lat,
+      'lon':srb.lon
+    };
+
+    return sportsActivityServiceFirebase.updateSportsActivityByJson(json,appointment.saID);
   }
 }

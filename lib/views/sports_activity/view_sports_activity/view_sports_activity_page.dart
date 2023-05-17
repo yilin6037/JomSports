@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jomsports/controllers/listing_controller.dart';
 import 'package:jomsports/controllers/sports_activity_controller.dart';
+import 'package:jomsports/controllers/sports_related_business_controller.dart';
+import 'package:jomsports/models/appointment.dart';
 import 'package:jomsports/models/sports_activity.dart';
+import 'package:jomsports/shared/constant/appointment_status.dart';
+import 'package:jomsports/shared/constant/color.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
+import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_default.dart';
+import 'package:jomsports/views/sports_activity/make_appointment/make_appointment_page.dart';
 import 'package:jomsports/views/sports_activity/view_sports_activity/widget/comment.dart';
 import 'package:jomsports/views/sports_activity/view_sports_activity/widget/join_button.dart';
 import 'package:jomsports/views/sports_activity/view_sports_activity/widget/participant_list.dart';
@@ -14,6 +21,9 @@ class ViewSportsActivityPage extends StatelessWidget {
 
   final SportsActivityController sportsActivityController =
       Get.put(tag: 'sportsActivityController', SportsActivityController());
+
+  final ListingController listingController =
+      Get.put(tag: 'listingController', ListingController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +66,9 @@ class ViewSportsActivityPage extends StatelessWidget {
                             Text(sportsActivity.dateTime)
                           ],
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         //location
                         Row(
                           children: [
@@ -68,6 +81,133 @@ class ViewSportsActivityPage extends StatelessWidget {
                               sportsActivity.address,
                               softWrap: true,
                             ))
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.calendar_month_outlined),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            StreamBuilder<List<Appointment>>(
+                                stream: sportsActivityController
+                                    .getAppointmentListBySaID(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return const Center(
+                                        child: Text('Something went wrong'));
+                                  }
+                                  if (snapshot.hasData) {
+                                    final appointmentList = snapshot.data!;
+                                    if (appointmentList.isEmpty) {
+                                      return SharedButton(
+                                        onPressed: () async {
+                                          final SportsRelatedBusinessController
+                                              sportsRelatedBusinessController =
+                                              Get.put(
+                                                  tag:
+                                                      'sportsRelatedBusinessController',
+                                                  SportsRelatedBusinessController());
+                                          await sportsRelatedBusinessController
+                                              .initMap();
+                                          listingController.selectedSaID =
+                                              sportsActivityController
+                                                  .selectedSportsActivity!.saID;
+                                          Get.to(() => MakeAppointmentPage(
+                                                makeAppointment: true,
+                                              ));
+                                        },
+                                        text: 'Make Appointment',
+                                        fontSize: 12,
+                                      );
+                                    }
+
+                                    return Expanded(
+                                      child: LimitedBox(
+                                        maxHeight: 250,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ListView.builder(
+                                                itemCount:
+                                                    appointmentList.length,
+                                                scrollDirection: Axis.vertical,
+                                                shrinkWrap: true,
+                                                physics: const ScrollPhysics(),
+                                                itemBuilder: (context, index) {
+                                                  return Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      FutureBuilder<String>(
+                                                        future: sportsActivityController
+                                                            .getSportsFacilityName(
+                                                                appointmentList[
+                                                                        index]
+                                                                    .listingID),
+                                                        builder: (context,
+                                                                snapshot) =>
+                                                            Text(
+                                                                snapshot.data ??
+                                                                    ''),
+                                                      ),
+                                                      Text(
+                                                          '${appointmentList[index].slot}:00 - ${appointmentList[index].slot}:59'),
+                                                      Text(
+                                                        appointmentList[index]
+                                                            .status
+                                                            .statusText,
+                                                        style: const TextStyle(
+                                                            color: Color(
+                                                                ColorConstant
+                                                                    .notSelectedTextColor)),
+                                                      )
+                                                    ],
+                                                  );
+                                                }),
+                                            if (appointmentList.isNotEmpty &&
+                                                appointmentList[0].status !=
+                                                    AppointmentStatus
+                                                        .appointmentMade)
+                                              SharedButton(
+                                                onPressed: () async {
+                                                  final SportsRelatedBusinessController
+                                                      sportsRelatedBusinessController =
+                                                      Get.put(
+                                                          tag:
+                                                              'sportsRelatedBusinessController',
+                                                          SportsRelatedBusinessController());
+                                                  await sportsRelatedBusinessController
+                                                      .initMap();
+                                                  listingController
+                                                          .selectedSaID =
+                                                      sportsActivityController
+                                                          .selectedSportsActivity!
+                                                          .saID;
+                                                  Get.to(() =>
+                                                      MakeAppointmentPage(
+                                                        makeAppointment: true,
+                                                      ));
+                                                },
+                                                text: 'Make Appointment',
+                                                fontSize: 12,
+                                              ),
+                                          ],
+                                        ),
+                                        //make another appointment
+                                      ),
+                                    );
+                                  } else {
+                                    return const Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                })
                           ],
                         ),
                       ],

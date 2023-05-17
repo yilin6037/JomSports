@@ -105,11 +105,13 @@ class SportsRelatedBusiness extends User {
   static Stream<List<Marker>> getSportsRelatedBusinessMarkerList(
       {required double lat,
       required double lon,
-      required Function(SportsRelatedBusiness) onTap}) {
+      required Function(SportsRelatedBusiness) onTap,
+      bool isSFOnly = false}) {
     SportsRelatedBusinessServiceFirebase sportsRelatedBusinessServiceFirebase =
         SportsRelatedBusinessServiceFirebase();
     return sportsRelatedBusinessServiceFirebase
-        .getSportsRelatedBusinessMarkerList(lat: lat, lon: lon, onTap: onTap);
+        .getSportsRelatedBusinessMarkerList(
+            lat: lat, lon: lon, onTap: onTap, isSFOnly: isSFOnly);
   }
 
   Future setHasSF(bool value) async {

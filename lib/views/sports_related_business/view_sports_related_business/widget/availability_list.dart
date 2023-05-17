@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/listing_controller.dart';
+import 'package:jomsports/controllers/sports_activity_controller.dart';
 import 'package:jomsports/models/slot_unavailable.dart';
+import 'package:jomsports/shared/constant/appointment_status.dart';
+import 'package:jomsports/views/sports_activity/view_sports_activity/view_sports_activity_page.dart';
 
 class AvailabilityListWidget extends StatelessWidget {
   AvailabilityListWidget({super.key});
 
   final ListingController listingController =
       Get.find(tag: 'listingController');
+
+  final SportsActivityController sportsActivityController =
+      Get.put(tag: 'sportsActivityController', SportsActivityController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +65,21 @@ class AvailabilityListWidget extends StatelessWidget {
                         if (slotUnavailable != null) {
                           return ListTile(
                             title: Text('$index:00 - $index:59'),
-                            subtitle: slotUnavailable.appointment != null
+                            subtitle: slotUnavailable.appointment != null &&
+                                    slotUnavailable.appointment!.status !=
+                                        AppointmentStatus.canceled
                                 ? TextButton(
                                     child: Text(
-                                        'Sports Activity ${slotUnavailable.appointment!.listingID}'),
-                                    onPressed: () {},
+                                        'Sports Activity ${slotUnavailable.appointment!.saID}'),
+                                    onPressed: () async {
+                                      await sportsActivityController
+                                          .initSportsActivity(slotUnavailable
+                                              .appointment!.saID);
+                                      Get.to(() => ViewSportsActivityPage());
+                                    },
                                   )
                                 : const Text('UNAVAILABLE'),
-                              enabled: false,
+                            enabled: false,
                           );
                         }
                         return ListTile(

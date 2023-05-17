@@ -24,23 +24,24 @@ class SportsRelatedBusinessController extends GetxController {
   }
 
   Stream<List<Marker>> getSportsActivityMarkerList(
-      {required Function(SportsRelatedBusiness) onTap}) {
+      {required Function(SportsRelatedBusiness) onTap, bool isSFOnly = false}) {
     return SportsRelatedBusiness.getSportsRelatedBusinessMarkerList(
-        lat: lat.value, lon: lon.value, onTap: onTap);
+        lat: lat.value, lon: lon.value, onTap: onTap, isSFOnly: isSFOnly);
   }
 
   //view srb
   SportsRelatedBusiness? selectedSRB;
-  void initSRB(SportsRelatedBusiness sportsRelatedBusiness) {
+  bool initSRB(SportsRelatedBusiness sportsRelatedBusiness) {
     selectedSRB = sportsRelatedBusiness;
     if (selectedSRB == null) {
       SharedDialog.errorDialog();
       Get.back();
+      return false;
     } else {
       final ListingController listingController =
           Get.put(tag: 'listingController', ListingController());
       listingController.initSportsRelatedBusiness(selectedSRB!.userID);
-      Get.to(() => ViewSportsRelatedBusinessPage());
+      return true;
     }
   }
 }

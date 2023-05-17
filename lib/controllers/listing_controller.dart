@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jomsports/models/appointment.dart';
 import 'package:jomsports/models/item.dart';
 import 'package:jomsports/models/slot_unavailable.dart';
+import 'package:jomsports/models/sports_activity.dart';
 import 'package:jomsports/models/sports_facility.dart';
+import 'package:jomsports/models/sports_related_business.dart';
+import 'package:jomsports/shared/constant/appointment_status.dart';
 import 'package:jomsports/shared/constant/listing_type.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
@@ -106,21 +110,19 @@ class ListingController extends GetxController {
 
   //read
   String? sportsRelatedBusinessID;
-  void initSportsRelatedBusiness(String userID){
-
-      sportsRelatedBusinessID = userID;
-    
+  void initSportsRelatedBusiness(String userID) {
+    sportsRelatedBusinessID = userID;
   }
 
   Stream<List<Item>> getItemList() {
-    if(userController.currentUser.userType == Role.sportsRelatedBusiness){
+    if (userController.currentUser.userType == Role.sportsRelatedBusiness) {
       initSportsRelatedBusiness(userController.currentUser.userID);
     }
     return Item.getItemList(sportsRelatedBusinessID!);
   }
 
   Stream<List<SportsFacility>> getSFList() {
-    if(userController.currentUser.userType == Role.sportsRelatedBusiness){
+    if (userController.currentUser.userType == Role.sportsRelatedBusiness) {
       initSportsRelatedBusiness(userController.currentUser.userID);
     }
     return SportsFacility.getSFList(sportsRelatedBusinessID!);
@@ -135,20 +137,21 @@ class ListingController extends GetxController {
     if (selectedItem == null) {
       SharedDialog.errorDialog();
       Get.back();
-    }
-    listingChoice.value = ListingType.item;
-    itemNameTextController =
-        TextEditingController(text: selectedItem!.itemName);
-    itemDescriptionTextController =
-        TextEditingController(text: selectedItem!.description);
-    itemAvailability = RxBool(selectedItem!.availability);
-    await selectedItem!.getListingPicUrl();
-    if (selectedItem!.listingPictureUrl != null) {
-      listingPictureUrl = selectedItem!.listingPictureUrl!;
-      listingPicture = XFile('');
     } else {
-      listingPicture = XFile('');
-      listingPictureUrl = '';
+      listingChoice.value = ListingType.item;
+      itemNameTextController =
+          TextEditingController(text: selectedItem!.itemName);
+      itemDescriptionTextController =
+          TextEditingController(text: selectedItem!.description);
+      itemAvailability = RxBool(selectedItem!.availability);
+      await selectedItem!.getListingPicUrl();
+      if (selectedItem!.listingPictureUrl != null) {
+        listingPictureUrl = selectedItem!.listingPictureUrl!;
+        listingPicture = XFile('');
+      } else {
+        listingPicture = XFile('');
+        listingPictureUrl = '';
+      }
     }
   }
 
@@ -160,28 +163,29 @@ class ListingController extends GetxController {
     if (selectedSF == null) {
       SharedDialog.errorDialog();
       Get.back();
-    }
-    listingChoice.value = ListingType.facility;
-    facilityNameTextController =
-        TextEditingController(text: selectedSF!.facilityName);
-    facilityDescriptionTextController =
-        TextEditingController(text: selectedSF!.description);
-
-    openHourTextControllerList = List.generate(
-        7,
-        (index) => TextEditingController(
-            text: selectedSF!.operatingHourList[index].openHour.toString()));
-    closeHourTextControllerList = List.generate(
-        7,
-        (index) => TextEditingController(
-            text: selectedSF!.operatingHourList[index].closeHour.toString()));
-    await selectedSF!.getListingPicUrl();
-    if (selectedSF!.listingPictureUrl != null) {
-      listingPictureUrl = selectedSF!.listingPictureUrl!;
-      listingPicture = XFile('');
     } else {
-      listingPicture = XFile('');
-      listingPictureUrl = '';
+      listingChoice.value = ListingType.facility;
+      facilityNameTextController =
+          TextEditingController(text: selectedSF!.facilityName);
+      facilityDescriptionTextController =
+          TextEditingController(text: selectedSF!.description);
+
+      openHourTextControllerList = List.generate(
+          7,
+          (index) => TextEditingController(
+              text: selectedSF!.operatingHourList[index].openHour.toString()));
+      closeHourTextControllerList = List.generate(
+          7,
+          (index) => TextEditingController(
+              text: selectedSF!.operatingHourList[index].closeHour.toString()));
+      await selectedSF!.getListingPicUrl();
+      if (selectedSF!.listingPictureUrl != null) {
+        listingPictureUrl = selectedSF!.listingPictureUrl!;
+        listingPicture = XFile('');
+      } else {
+        listingPicture = XFile('');
+        listingPictureUrl = '';
+      }
     }
   }
 
@@ -246,12 +250,13 @@ class ListingController extends GetxController {
     if (selectedSF == null) {
       SharedDialog.errorDialog();
       Get.back();
-    }
-    DateTime now = DateTime.now();
+    } else {
+      DateTime now = DateTime.now();
 
-    upcomingWeek = List.generate(
-        7, (index) => DateTime(now.year, now.month, now.day + index));
-    selectedDate.value = upcomingWeek[0];
+      upcomingWeek = List.generate(
+          7, (index) => DateTime(now.year, now.month, now.day + index));
+      selectedDate.value = upcomingWeek[0];
+    }
   }
 
   Stream<List<SlotUnavailable>> getSlotUnavailableList(String date) {
@@ -265,10 +270,61 @@ class ListingController extends GetxController {
         date: selectedDate.value.toString(),
         slot: slot);
 
-    return await slotUnavailable.addSlotUnavailable();
+    final isSuccessful = await slotUnavailable.addSlotUnavailable();
+    if (!isSuccessful) {
+      SharedDialog.alertDialog(
+          'The slot is unavailable', 'Please refresh and check again');
+    }
   }
 
   Future deleteSlotUnavailable(SlotUnavailable slotUnavailable) async {
     return await slotUnavailable.deleteSlotUnavailable();
+  }
+
+  //make appointment
+  bool isMakeAppointment = false;
+  String? selectedSaID;
+  Appointment initAppointment(int slot) {
+    return Appointment(
+        appointmentID: '',
+        date: selectedDate.value.toString(),
+        slot: slot,
+        listingID: selectedSF!.listingID,
+        saID: '',
+        status: AppointmentStatus.appointmentMade);
+  }
+
+  Future makeAppointment(int slot, SportsRelatedBusiness srb) async{
+    Appointment appointment = initAppointment(slot);
+    SlotUnavailable slotUnavailable = SlotUnavailable(
+          slotUnavailableID: '',
+          listingID: appointment.listingID,
+          date: appointment.date.substring(0,16),
+          slot: appointment.slot);
+
+      final isSuccessful = await slotUnavailable.addSlotUnavailable();
+      if (!isSuccessful) {
+        SharedDialog.alertDialog(
+            'The slot is unavailable', 'Please make another appointment');
+        return;
+      }
+
+      appointment.appointmentID = slotUnavailable.slotUnavailableID;
+      appointment.saID = selectedSaID!;
+      await appointment.makeAppointment();
+
+      await SportsActivity.updateSportsActivityByAppointment(appointment, srb);
+
+  }
+
+  //cancel appointment
+  String? selectedAppointmentID;
+  Future cancelAppointment()async{
+    if(selectedAppointmentID!=null){
+      await Appointment.cancelAppointment(selectedAppointmentID!);
+      await SlotUnavailable.deleteSlotUnavailableByID(selectedAppointmentID!);
+    }else{
+      SharedDialog.errorDialog();
+    }
   }
 }

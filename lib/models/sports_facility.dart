@@ -70,6 +70,11 @@ class SportsFacility extends Listing {
     ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
     return await listingServiceFirebase.deleteSF(listingID);
   }
+
+  static Future getSportsFacilityName(String listingID) async{
+    ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
+    return await listingServiceFirebase.getSportsFacilityName(listingID);
+  }
 }
 
 class OperatingHour {

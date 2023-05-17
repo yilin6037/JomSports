@@ -1,5 +1,6 @@
 import 'package:jomsports/models/appointment.dart';
 import 'package:jomsports/services/listing_service_firebase.dart';
+import 'package:jomsports/shared/dialog/dialog.dart';
 
 class SlotUnavailable {
   String slotUnavailableID;
@@ -31,14 +32,31 @@ class SlotUnavailable {
     return listingServiceFirebase.getSlotUnavailable(listingID, date);
   }
 
-  Future addSlotUnavailable() async {
+  Future<bool> addSlotUnavailable() async {
     ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
+
+    final isUnavailable = await listingServiceFirebase.checkSlotUnavailable(
+        listingID, date, slot);
+
+    if (isUnavailable) {
+      return false;
+    }
+
     slotUnavailableID =
         await listingServiceFirebase.createSlotUnavailable(this);
+    if (slotUnavailableID.isNotEmpty) {
+      return true;
+    }
+    return false;
   }
 
   Future deleteSlotUnavailable() async {
     ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
     await listingServiceFirebase.deleteSlotUnavailable(slotUnavailableID);
+  }
+
+  static Future deleteSlotUnavailableByID(String id) async {
+    ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
+    await listingServiceFirebase.deleteSlotUnavailable(id);
   }
 }

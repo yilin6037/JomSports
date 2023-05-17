@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/listing_controller.dart';
 import 'package:jomsports/controllers/sports_activity_controller.dart';
+import 'package:jomsports/controllers/sports_related_business_controller.dart';
+import 'package:jomsports/models/appointment.dart';
 import 'package:jomsports/models/slot_unavailable.dart';
-import 'package:jomsports/shared/constant/appointment_status.dart';
-import 'package:jomsports/views/sports_related_business/manage_listing/view_sports_activity/view_sports_activity_page.dart';
+import 'package:jomsports/shared/dialog/dialog.dart';
+import 'package:jomsports/views/sports_activity/organize_sports_activity/organize_sports_activity_page.dart';
+import 'package:jomsports/views/sports_activity/view_sports_activity/view_sports_activity_page.dart';
 
 class AvailabilityListWidget extends StatelessWidget {
   AvailabilityListWidget({super.key});
@@ -13,7 +16,12 @@ class AvailabilityListWidget extends StatelessWidget {
       Get.find(tag: 'listingController');
 
   final SportsActivityController sportsActivityController =
-      Get.put(tag: 'sportsActivityController', SportsActivityController());
+      Get.find(tag: 'sportsActivityController');
+
+  final SportsRelatedBusinessController sportsRelatedBusinessController =
+      Get.put(
+          tag: 'sportsRelatedBusinessController',
+          SportsRelatedBusinessController());
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +65,7 @@ class AvailabilityListWidget extends StatelessWidget {
                                             .selectedDate.value.weekday -
                                         1]
                                     .closeHour) {
-                          return ListTile(
-                            title: Text('$index:00 - $index:59'),
-                            enabled: false,
-                          );
+                          return Container();
                         }
                         SlotUnavailable? slotUnavailable =
                             slotUnavaliableList.firstWhereOrNull(
@@ -68,44 +73,47 @@ class AvailabilityListWidget extends StatelessWidget {
                         if (slotUnavailable != null) {
                           return ListTile(
                             title: Text('$index:00 - $index:59'),
-                            subtitle: slotUnavailable.appointment != null &&
-                                    slotUnavailable.appointment!.status !=
-                                        AppointmentStatus.canceled
-                                ? TextButton(
-                                    child: Text(
-                                        'Sports Activity ${slotUnavailable.appointment!.saID}'),
-                                    onPressed: () async {
-                                      await sportsActivityController
-                                          .initSportsActivity(slotUnavailable
-                                              .appointment!.saID);
-                                      listingController.selectedAppointmentID =
-                                          slotUnavailable
-                                              .appointment!.appointmentID;
-                                      Get.to(() => ViewSportsActivityPage());
-                                    },
-                                  )
-                                : null,
-                            trailing: slotUnavailable.appointment == null ||
-                                    slotUnavailable.appointment!.status ==
-                                        AppointmentStatus.canceled
-                                ? Switch(
-                                    value: false,
-                                    onChanged: (value) async {
-                                      await listingController
-                                          .deleteSlotUnavailable(
-                                              slotUnavailable);
-                                    })
-                                : null,
+                            subtitle: const Text('UNAVAILABLE'),
+                            enabled: false,
+                          );
+                        }
+                        if (listingController.selectedDate.value.day ==
+                                DateTime.now().day &&
+                            index <= DateTime.now().hour + 1) {
+                          return ListTile(
+                            title: Text('$index:00 - $index:59'),
+                            enabled: false,
                           );
                         }
                         return ListTile(
                           title: Text('$index:00 - $index:59'),
-                          trailing: Switch(
-                              value: true,
-                              onChanged: (value) async {
-                                await listingController
-                                    .addSlotUnavailable(index);
-                              }),
+                          subtitle: const Text('AVAILABLE'),
+                          enableFeedback: true,
+                          onTap: () {
+                            SharedDialog.confirmationDialog(
+                                title: 'Confirmation',
+                                message:
+                                    'Are you sure to make appointment as detail below:\n${listingController.selectedSF!.facilityName} \n$index:00 - $index:59',
+                                onOK: () async {
+                                  if (listingController.isMakeAppointment) {
+                                    await listingController.makeAppointment(
+                                        index,
+                                        sportsRelatedBusinessController
+                                            .selectedSRB!);
+                                    Get.offAll(()=>ViewSportsActivityPage());
+                                  } else {
+                                    Appointment appointment = listingController
+                                        .initAppointment(index);
+                                    sportsActivityController.setAppointment(
+                                        appointment,
+                                        sportsRelatedBusinessController
+                                            .selectedSRB!,
+                                        '${listingController.selectedSF!.facilityName} \n$index:00 - $index:59');
+                                    Get.close(3);
+                                  }
+                                },
+                                onCancel: () {});
+                          },
                         );
                       },
                     );
