@@ -42,7 +42,7 @@ class SportsActivityController extends GetxController {
     await initMap();
   }
 
-  Future initMap() async {
+  Future<LatLng> initMap() async {
     MapLocationPickerService geolocatorService = MapLocationPickerService();
     Position? position = await geolocatorService.determinePosition();
     if (position != null) {
@@ -52,6 +52,7 @@ class SportsActivityController extends GetxController {
       lat.value = MapConstant.defaultLat;
       lon.value = MapConstant.defaultLon;
     }
+    return LatLng(lat.value, lon.value);
   }
 
   void onPickLocation(String address, double lat, double lon) {

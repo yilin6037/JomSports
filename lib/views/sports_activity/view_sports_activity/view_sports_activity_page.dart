@@ -14,6 +14,7 @@ import 'package:jomsports/shared/widget/scaffold/scaffold_default.dart';
 import 'package:jomsports/views/sports_activity/make_appointment/make_appointment_page.dart';
 import 'package:jomsports/views/sports_activity/view_sports_activity/widget/comment.dart';
 import 'package:jomsports/views/sports_activity/view_sports_activity/widget/join_button.dart';
+import 'package:jomsports/views/sports_activity/view_sports_activity/widget/make_appointment_button.dart';
 import 'package:jomsports/views/sports_activity/view_sports_activity/widget/participant_list.dart';
 
 class ViewSportsActivityPage extends StatelessWidget {
@@ -103,26 +104,7 @@ class ViewSportsActivityPage extends StatelessWidget {
                                   if (snapshot.hasData) {
                                     final appointmentList = snapshot.data!;
                                     if (appointmentList.isEmpty) {
-                                      return SharedButton(
-                                        onPressed: () async {
-                                          final SportsRelatedBusinessController
-                                              sportsRelatedBusinessController =
-                                              Get.put(
-                                                  tag:
-                                                      'sportsRelatedBusinessController',
-                                                  SportsRelatedBusinessController());
-                                          await sportsRelatedBusinessController
-                                              .initMap();
-                                          listingController.selectedSaID =
-                                              sportsActivityController
-                                                  .selectedSportsActivity!.saID;
-                                          Get.to(() => MakeAppointmentPage(
-                                                makeAppointment: true,
-                                              ));
-                                        },
-                                        text: 'Make Appointment',
-                                        fontSize: 12,
-                                      );
+                                      return MakeAppointmentButton();
                                     }
 
                                     return Expanded(
@@ -173,29 +155,7 @@ class ViewSportsActivityPage extends StatelessWidget {
                                                 appointmentList[0].status !=
                                                     AppointmentStatus
                                                         .appointmentMade)
-                                              SharedButton(
-                                                onPressed: () async {
-                                                  final SportsRelatedBusinessController
-                                                      sportsRelatedBusinessController =
-                                                      Get.put(
-                                                          tag:
-                                                              'sportsRelatedBusinessController',
-                                                          SportsRelatedBusinessController());
-                                                  await sportsRelatedBusinessController
-                                                      .initMap();
-                                                  listingController
-                                                          .selectedSaID =
-                                                      sportsActivityController
-                                                          .selectedSportsActivity!
-                                                          .saID;
-                                                  Get.to(() =>
-                                                      MakeAppointmentPage(
-                                                        makeAppointment: true,
-                                                      ));
-                                                },
-                                                text: 'Make Appointment',
-                                                fontSize: 12,
-                                              ),
+                                              MakeAppointmentButton(),
                                           ],
                                         ),
                                         //make another appointment

@@ -16,17 +16,17 @@ class SportsRelatedBusinessNavBar extends StatelessWidget {
       onTap: (value) {
         switch (value) {
           case 0:
-            Get.to(() =>HomePage());
+            Get.offAll(() =>HomePage());
             break;
           case 1:
             //listing
-            Get.to(() =>ListingPage());
+            Get.offAll(() =>ListingPage());
             break;
           case 2:
             //forum
             break;
           default:
-            Get.to(() =>HomePage());
+            Get.offAll(() =>HomePage());
             break;
         }
       },

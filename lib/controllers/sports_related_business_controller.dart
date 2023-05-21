@@ -11,7 +11,7 @@ class SportsRelatedBusinessController extends GetxController {
   //sports shop map
   RxDouble lat = RxDouble(0);
   RxDouble lon = RxDouble(0);
-  Future initMap() async {
+  Future<LatLng> initMap() async {
     MapLocationPickerService geolocatorService = MapLocationPickerService();
     Position? position = await geolocatorService.determinePosition();
     if (position != null) {
@@ -21,6 +21,7 @@ class SportsRelatedBusinessController extends GetxController {
       lat.value = MapConstant.defaultLat;
       lon.value = MapConstant.defaultLon;
     }
+    return LatLng(lat.value, lon.value);
   }
 
   Stream<List<Marker>> getSportsActivityMarkerList(

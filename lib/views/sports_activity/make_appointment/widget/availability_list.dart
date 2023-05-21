@@ -100,7 +100,12 @@ class AvailabilityListWidget extends StatelessWidget {
                                         index,
                                         sportsRelatedBusinessController
                                             .selectedSRB!);
-                                    Get.offAll(()=>ViewSportsActivityPage());
+                                    await sportsActivityController
+                                        .initSportsActivity(
+                                            sportsActivityController
+                                                .selectedSportsActivity!.saID);
+                                    Get.close(4);
+                                    Get.to(ViewSportsActivityPage());
                                   } else {
                                     Appointment appointment = listingController
                                         .initAppointment(index);
