@@ -34,8 +34,10 @@ class UserServiceFirebase {
   Future<User> getUser(String userID) async {
     User user;
 
-    final snapshot =
-        await FirebaseFirestore.instance.collection(FirestoreCollectionConstant.user).doc(userID).get();
+    final snapshot = await FirebaseFirestore.instance
+        .collection(FirestoreCollectionConstant.user)
+        .doc(userID)
+        .get();
     user = User.fromJson(snapshot.data());
     user.userID = userID;
 

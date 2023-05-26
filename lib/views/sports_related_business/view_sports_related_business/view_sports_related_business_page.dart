@@ -5,7 +5,6 @@ import 'package:jomsports/controllers/sports_related_business_controller.dart';
 import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/shared/constant/asset.dart';
 import 'package:jomsports/shared/constant/listing_type.dart';
-import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_default.dart';
 import 'package:jomsports/views/sports_related_business/view_sports_related_business/widget/item_list.dart';
@@ -31,8 +30,8 @@ class ViewSportsRelatedBusinessPage extends StatelessWidget {
         sportsRelatedBusinessController.selectedSRB!;
     return DefaultScaffold(
       title: sportsRelatedBusiness.name,
-      role: Role.sportsLover,
-      navIndex: 2,
+      role: sportsRelatedBusinessController.userController.currentUser.userType,
+      navIndex: sportsRelatedBusinessController.initIndex(),
       body: Card(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),

@@ -5,6 +5,7 @@ import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/models/user.dart';
 import 'package:jomsports/shared/constant/appointment_status.dart';
 import 'package:jomsports/shared/constant/asset.dart';
+import 'package:jomsports/shared/constant/authentication_status.dart';
 import 'package:jomsports/shared/constant/firestore.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'dart:ui' as ui;
@@ -133,5 +134,30 @@ class SportsRelatedBusinessServiceFirebase {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
+  }
+
+  
+  Stream<List<SportsRelatedBusiness>> getPendingSRB() {
+    return firestoreInstance
+        .collection(FirestoreCollectionConstant.sportsRelatedBusiness)
+        .where('authenticationStatus',
+            isEqualTo: AuthenticationStatus.pending.name)
+        .snapshots()
+        .asyncMap((snapshot) async {
+      List<SportsRelatedBusiness> sportsRelatedBusinessList = [];
+      for (var doc in snapshot.docs) {
+        SportsRelatedBusiness srb = await User.getUser(doc.id);
+        srb.getProfilePicUrl();
+        sportsRelatedBusinessList.add(srb);
+      }
+      return sportsRelatedBusinessList;
+    });
+  }
+
+  Future changeAuthenticationStatus(String userID, AuthenticationStatus authenticationStatus)async{
+    return await firestoreInstance
+        .collection(FirestoreCollectionConstant.sportsRelatedBusiness)
+        .doc(userID)
+        .update({'authenticationStatus': authenticationStatus.name});
   }
 }

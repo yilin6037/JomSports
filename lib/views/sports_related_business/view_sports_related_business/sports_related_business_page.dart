@@ -38,11 +38,14 @@ class SportsRelatedBusinessPage extends StatelessWidget {
             );
           } else {
             return DefaultScaffold(
-                body: const CircularProgressIndicator(),
-                title: 'Explore Shops',
-                role: Role.sportsLover,
-                navIndex: 2);
+              body: const CircularProgressIndicator(),
+              title: 'Explore Shops',
+              role: Role.sportsLover,
+              navIndex: 2,
+              back: false,
+            );
           }
         });
   }
+  
 }

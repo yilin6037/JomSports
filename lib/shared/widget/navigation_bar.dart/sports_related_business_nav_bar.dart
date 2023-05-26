@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jomsports/views/forum/forum/forum_page.dart';
 import 'package:jomsports/views/home/home_page.dart';
 import 'package:jomsports/views/sports_related_business/manage_listing/listing_page.dart';
 
@@ -24,6 +25,7 @@ class SportsRelatedBusinessNavBar extends StatelessWidget {
             break;
           case 2:
             //forum
+            Get.offAll(() => ForumPage());
             break;
           default:
             Get.offAll(() =>HomePage());

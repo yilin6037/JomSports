@@ -24,6 +24,7 @@ class SharedDialog {
         middleText: message,
         confirm: SharedButton(
             onPressed: () {
+              Get.back();
               Get.off(() => page);
             },
             text: 'Ok'));
@@ -39,16 +40,16 @@ class SharedDialog {
       middleText: message,
       confirm: SharedButton(
         onPressed: () {
-          onOK();
           Get.back();
+          onOK();
         },
         text: 'Ok',
         danger: true,
       ),
       cancel: SharedButton(
           onPressed: () {
-            onCancel();
             Get.back();
+            onCancel();
           },
           text: 'Cancel'),
     );

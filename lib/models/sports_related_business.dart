@@ -121,4 +121,24 @@ class SportsRelatedBusiness extends User {
       await userServiceFirebase.updateSportsRelatedBusiness(this);
     }
   }
+
+  static Stream<List<SportsRelatedBusiness>> getPendingSRB() {
+    SportsRelatedBusinessServiceFirebase sportsRelatedBusinessServiceFirebase =
+        SportsRelatedBusinessServiceFirebase();
+    return sportsRelatedBusinessServiceFirebase.getPendingSRB();
+  }
+
+  static Future authenticate(String userID) async {
+    SportsRelatedBusinessServiceFirebase sportsRelatedBusinessServiceFirebase =
+        SportsRelatedBusinessServiceFirebase();
+    return sportsRelatedBusinessServiceFirebase.changeAuthenticationStatus(
+        userID, AuthenticationStatus.authenticated);
+  }
+
+  static Future reject(String userID) async {
+    SportsRelatedBusinessServiceFirebase sportsRelatedBusinessServiceFirebase =
+        SportsRelatedBusinessServiceFirebase();
+    return sportsRelatedBusinessServiceFirebase.changeAuthenticationStatus(
+        userID, AuthenticationStatus.rejected);
+  }
 }

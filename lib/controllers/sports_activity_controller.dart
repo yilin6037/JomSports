@@ -68,7 +68,7 @@ class SportsActivityController extends GetxController {
     SportsActivity sportsActivity = SportsActivity(
       saID: '',
       sportsType: sportsTypeValue!,
-      dateTime: dateTimeTextEditingController.text.substring(0,16),
+      dateTime: dateTimeTextEditingController.text.substring(0, 16),
       maxParticipants: int.parse(maxParticipantsTextController.text),
       address: addressTextController.text,
       lat: lat.value,
@@ -79,7 +79,7 @@ class SportsActivityController extends GetxController {
       SlotUnavailable slotUnavailable = SlotUnavailable(
           slotUnavailableID: '',
           listingID: appointment!.listingID,
-          date: appointment!.date.substring(0,16),
+          date: appointment!.date.substring(0, 16),
           slot: appointment!.slot);
 
       final isSuccessful = await slotUnavailable.addSlotUnavailable();
@@ -141,11 +141,11 @@ class SportsActivityController extends GetxController {
     }
   }
 
-  Stream<List<Appointment>> getAppointmentListBySaID(){
+  Stream<List<Appointment>> getAppointmentListBySaID() {
     return Appointment.getAppointmentListBySaID(selectedSportsActivity!.saID);
   }
 
-  Future<String> getSportsFacilityName(String listingID) async{
+  Future<String> getSportsFacilityName(String listingID) async {
     return await SportsFacility.getSportsFacilityName(listingID);
   }
 
@@ -192,7 +192,7 @@ class SportsActivityController extends GetxController {
   }
 
   void initCommentForm() {
-    commentTextController = TextEditingController();
+    commentFormKey = GlobalKey<FormState>();
     commentTextController = TextEditingController();
   }
 
@@ -211,7 +211,7 @@ class SportsActivityController extends GetxController {
 
     DateTime dateTime = DateTime.parse(appointment.date);
     dateTime = dateTime.add(Duration(hours: appointment.slot));
-    dateTimeTextEditingController.text = dateTime.toString().substring(0,16);
+    dateTimeTextEditingController.text = dateTime.toString().substring(0, 16);
 
     this.appointmentDetail.value = appointmentDetail;
 

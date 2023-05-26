@@ -23,6 +23,7 @@ class ListingPage extends StatelessWidget {
       role: Role.sportsRelatedBusiness,
       navIndex: 1,
       scrollable: false,
+      back: false,
       body: Stack(
         children: [
           SingleChildScrollView(

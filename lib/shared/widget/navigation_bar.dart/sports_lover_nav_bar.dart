@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/sports_activity_controller.dart';
 import 'package:jomsports/controllers/sports_related_business_controller.dart';
+import 'package:jomsports/views/forum/forum/forum_page.dart';
 import 'package:jomsports/views/home/home_page.dart';
 import 'package:jomsports/views/sports_activity/sports_activity/sports_activity_page.dart';
 import 'package:jomsports/views/sports_related_business/view_sports_related_business/sports_related_business_page.dart';
@@ -31,6 +32,7 @@ class SportsLoverNavBar extends StatelessWidget {
             break;
           case 3:
             //forum
+            Get.offAll(() => ForumPage());
             break;
           default:
             Get.offAll(() => HomePage());

@@ -44,14 +44,14 @@ class DefaultScaffold extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const BackButton(),
+          if (back == true) const BackButton(),
           Flexible(
             child: scrollable
                 ? SingleChildScrollView(
                     child: Center(child: body),
                   )
                 : SizedBox(
-                  width: double.maxFinite,
+                    width: double.maxFinite,
                     child: body,
                   ),
           ),
