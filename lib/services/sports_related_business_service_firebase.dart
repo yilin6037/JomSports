@@ -42,6 +42,20 @@ class SportsRelatedBusinessServiceFirebase {
         .update({'status': AppointmentStatus.canceled.name});
   }
 
+  Future cancelAppointmentByListingID(String listingID) async {
+    final snapshot = await firestoreInstance
+        .collection(FirestoreCollectionConstant.appointment)
+        .where('listingID', isEqualTo: listingID)
+        .get();
+
+    for (var doc in snapshot.docs) {
+      await firestoreInstance
+          .collection(FirestoreCollectionConstant.appointment)
+          .doc(doc.id)
+          .update({'status': AppointmentStatus.canceled.name});
+    }
+  }
+
   Future<List<String>> deleteAppointmentBySaID(String saID) async {
     final snapshots = await firestoreInstance
         .collection(FirestoreCollectionConstant.appointment)

@@ -1,6 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:jomsports/models/listing.dart';
 import 'package:jomsports/services/listing_service_firebase.dart';
+import 'package:jomsports/services/sports_related_business_service_firebase.dart';
 import 'package:jomsports/shared/constant/listing_type.dart';
 
 class SportsFacility extends Listing {
@@ -65,18 +66,24 @@ class SportsFacility extends Listing {
   }
 
   @override
-  Future deleteListing()async{
+  Future deleteListing() async {
     await super.deleteListing();
     ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
-    return await listingServiceFirebase.deleteSF(listingID);
+    await listingServiceFirebase.deleteSF(listingID);
+
+    SportsRelatedBusinessServiceFirebase sportsRelatedBusinessServiceFirebase =
+        SportsRelatedBusinessServiceFirebase();
+    await sportsRelatedBusinessServiceFirebase
+        .cancelAppointmentByListingID(listingID);
   }
 
-  static Future getSportsFacilityName(String listingID) async{
+  static Future getSportsFacilityName(String listingID) async {
     ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
     return await listingServiceFirebase.getSportsFacilityName(listingID);
   }
 
-  static Future<List<SportsFacility>> getSportsFacilityListByUserID(String userID) async{
+  static Future<List<SportsFacility>> getSportsFacilityListByUserID(
+      String userID) async {
     ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
     return await listingServiceFirebase.readSportsFacilityList(userID);
   }

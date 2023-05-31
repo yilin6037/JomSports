@@ -43,6 +43,9 @@ class AvailabilityListWidget extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
                       itemBuilder: (context, index) {
+                        SlotUnavailable? slotUnavailable =
+                            slotUnavaliableList.firstWhereOrNull(
+                                (element) => element.slot == index);
                         if (index <
                                 listingController
                                     .selectedSF!
@@ -59,12 +62,28 @@ class AvailabilityListWidget extends StatelessWidget {
                                     .closeHour) {
                           return ListTile(
                             title: Text('$index:00 - $index:59'),
+                            subtitle: slotUnavailable != null &&
+                                    slotUnavailable.appointment != null &&
+                                    slotUnavailable.appointment!.status !=
+                                        AppointmentStatus.canceled
+                                ? TextButton(
+                                    child: Text(
+                                        'Sports Activity ${slotUnavailable.appointment!.saID}'),
+                                    onPressed: () async {
+                                      await sportsActivityController
+                                          .initSportsActivity(slotUnavailable
+                                              .appointment!.saID);
+                                      listingController.selectedAppointmentID =
+                                          slotUnavailable
+                                              .appointment!.appointmentID;
+                                      Get.to(() => ViewSportsActivityPage());
+                                    },
+                                  )
+                                : null,
                             enabled: false,
                           );
                         }
-                        SlotUnavailable? slotUnavailable =
-                            slotUnavaliableList.firstWhereOrNull(
-                                (element) => element.slot == index);
+
                         if (slotUnavailable != null) {
                           return ListTile(
                             title: Text('$index:00 - $index:59'),

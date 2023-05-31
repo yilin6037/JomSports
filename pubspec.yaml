@@ -52,6 +52,7 @@ dependencies:
 flutter_icons:
   image_path: "assets/logo/logo_small_transparent.png"
   android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
