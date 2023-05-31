@@ -47,6 +47,11 @@ dependencies:
   dropdown_button2: ^2.1.0
   carousel_slider: ^4.2.1
   syncfusion_flutter_charts: ^20.4.54
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  image_path: "assets/logo/logo_small_transparent.png"
+  android: true
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +79,7 @@ flutter:
   assets:
     - assets/
     - assets/map_marker/
+    - assets/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

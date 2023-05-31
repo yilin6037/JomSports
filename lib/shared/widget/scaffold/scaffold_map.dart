@@ -40,7 +40,7 @@ class MapScaffold extends StatelessWidget {
       backgroundColor: const Color(ColorConstant.scaffoldBackgroundColor),
       appBar: AppBar(
         backgroundColor: const Color(ColorConstant.appBarBackgroundColor),
-        leading: Image.asset(AssetConstant.logo),
+        leading: Image.asset(AssetConstant.logoBig),
         leadingWidth: 125,
         toolbarHeight: 75,
         title: RichText(

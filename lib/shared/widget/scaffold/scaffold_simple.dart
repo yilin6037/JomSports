@@ -28,7 +28,7 @@ class SimpleScaffold extends StatelessWidget {
       appBar: AppBar(
             backgroundColor: const Color(ColorConstant.appBarBackgroundColor),
             toolbarHeight: height.value,
-            title: Image.asset(AssetConstant.logo)),
+            title: Image.asset(AssetConstant.logoBig)),
       body: body,
       bottomNavigationBar:bottomNavigationBar(),
     );

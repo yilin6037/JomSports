@@ -1,8 +1,13 @@
 class AssetConstant{
   static const assets = 'assets';
-  static const logo = '$assets/logo.png';
   static const sportsLover = '$assets/sports_lover_button.png';
   static const sportsRelatedBusiness = '$assets/sports_related_business_button.png';
+
+  //logo
+  static const logo = '/logo';
+  static const logoBig = '$assets$logo/logo.png';
+  static const logoSmall = '$assets$logo/logo_small.png';
+  static const logoSmallTransparent = '$assets$logo/logo_small_transparent.png';
 
   //map_marker
   static const mapMarker = '/map_marker';
