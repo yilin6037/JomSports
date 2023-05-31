@@ -7,7 +7,9 @@ import 'package:jomsports/shared/widget/button/button.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_simple.dart';
 import 'package:jomsports/views/authentication/edit_profile/edit_profile_sports_lover_page.dart';
 import 'package:jomsports/views/authentication/edit_profile/edit_profile_sports_related_business_page.dart';
+import 'package:jomsports/views/home/widget/admin_home.dart';
 import 'package:jomsports/views/home/widget/sports_lover_home.dart';
+import 'package:jomsports/views/home/widget/sports_related_business_home.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -69,7 +71,8 @@ class HomePage extends StatelessWidget {
                                       switch (
                                           userController.currentUser.userType) {
                                         case Role.sportsLover:
-                                          Get.to(() =>EditProfileSportsLoverPage());
+                                          Get.to(() =>
+                                              EditProfileSportsLoverPage());
                                           break;
                                         case Role.sportsRelatedBusiness:
                                           Get.to(() =>
@@ -101,6 +104,16 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: SportsLoverHome(),
+                  ),
+                if (userController.currentUser.userType == Role.sportsRelatedBusiness)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: SportsRelatedBusinessHome(),
+                  ),
+                if (userController.currentUser.userType == Role.admin)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: AdminHome(),
                   ),
               ],
             ),

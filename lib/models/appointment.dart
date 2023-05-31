@@ -60,4 +60,10 @@ class Appointment {
         SportsRelatedBusinessServiceFirebase();
     return sportsRelatedBusinessServiceFirebase.cancelAppointment(appointmentID);
   }
+
+  static Stream<List<Appointment>> getUpcomingAppointment(String userID){
+    SportsRelatedBusinessServiceFirebase sportsRelatedBusinessServiceFirebase =
+        SportsRelatedBusinessServiceFirebase();
+    return sportsRelatedBusinessServiceFirebase.getUpcomingAppointment(userID);
+  }
 }

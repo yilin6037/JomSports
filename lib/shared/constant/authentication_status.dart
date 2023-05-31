@@ -1,9 +1,10 @@
-enum AuthenticationStatus{
-  pending ('Pending for Authentication'),
-  authenticated ('Authenticated'),
-  rejected ('Rejected for Authentication');
+enum AuthenticationStatus {
+  pending('Pending for Authentication', 'Pending'),
+  authenticated('Authenticated', 'Authenticated'),
+  rejected('Rejected for Authentication', 'Rejected');
 
   final String authenticationText;
+  final String summaryText;
 
-  const AuthenticationStatus(this.authenticationText);
+  const AuthenticationStatus(this.authenticationText, this.summaryText);
 }

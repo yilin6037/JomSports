@@ -75,6 +75,11 @@ class SportsFacility extends Listing {
     ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
     return await listingServiceFirebase.getSportsFacilityName(listingID);
   }
+
+  static Future<List<SportsFacility>> getSportsFacilityListByUserID(String userID) async{
+    ListingServiceFirebase listingServiceFirebase = ListingServiceFirebase();
+    return await listingServiceFirebase.readSportsFacilityList(userID);
+  }
 }
 
 class OperatingHour {

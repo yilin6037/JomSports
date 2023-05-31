@@ -9,6 +9,7 @@ import 'package:jomsports/services/user_service_firebase.dart';
 import 'package:jomsports/shared/constant/authentication_status.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/constant/storage_destination.dart';
+import 'package:jomsports/shared/widget/chart/piechart.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
 class SportsRelatedBusiness extends User {
@@ -140,5 +141,11 @@ class SportsRelatedBusiness extends User {
         SportsRelatedBusinessServiceFirebase();
     return sportsRelatedBusinessServiceFirebase.changeAuthenticationStatus(
         userID, AuthenticationStatus.rejected);
+  }
+
+  static Stream<List<ChartData>> getSRBSummary() {
+    SportsRelatedBusinessServiceFirebase sportsRelatedBusinessServiceFirebase =
+        SportsRelatedBusinessServiceFirebase();
+    return sportsRelatedBusinessServiceFirebase.getSRBSummary();
   }
 }

@@ -2,11 +2,14 @@ import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/listing_controller.dart';
 import 'package:jomsports/controllers/user_controller.dart';
+import 'package:jomsports/models/appointment.dart';
+import 'package:jomsports/models/sports_facility.dart';
 import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/services/map_location_picker_service.dart';
 import 'package:jomsports/shared/constant/map.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
+import 'package:jomsports/shared/widget/chart/piechart.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart' show rootBundle;
@@ -89,5 +92,18 @@ class SportsRelatedBusinessController extends GetxController {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
+  }
+
+  Stream<List<Appointment>> getUpcomingAppointment() {
+    return Appointment.getUpcomingAppointment(
+        userController.currentUser.userID);
+  }
+
+  Future<String> getSportsFacilityName(String listingID) async {
+    return await SportsFacility.getSportsFacilityName(listingID);
+  }
+
+  Stream<List<ChartData>> getSRBSummary() {
+    return SportsRelatedBusiness.getSRBSummary();
   }
 }

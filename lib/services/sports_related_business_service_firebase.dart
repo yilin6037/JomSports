@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:jomsports/models/appointment.dart';
+import 'package:jomsports/models/sports_facility.dart';
 import 'package:jomsports/models/sports_related_business.dart';
 import 'package:jomsports/models/user.dart';
 import 'package:jomsports/shared/constant/appointment_status.dart';
 import 'package:jomsports/shared/constant/asset.dart';
 import 'package:jomsports/shared/constant/authentication_status.dart';
 import 'package:jomsports/shared/constant/firestore.dart';
+import 'package:jomsports/shared/widget/chart/piechart.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'dart:ui' as ui;
 
@@ -68,6 +70,35 @@ class SportsRelatedBusinessServiceFirebase {
         .map((snapshot) => snapshot.docs
             .map((doc) => Appointment.fromJson(doc.id, doc.data()))
             .toList());
+  }
+
+  Stream<List<Appointment>> getUpcomingAppointment(String userID) {
+    String today =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+            .toString();
+    return firestoreInstance
+        .collection(FirestoreCollectionConstant.appointment)
+        .where('date', isEqualTo: today)
+        .orderBy('slot')
+        .snapshots()
+        .asyncMap((snapshot) async {
+      List<SportsFacility> sportsFacilityList =
+          await SportsFacility.getSportsFacilityListByUserID(userID);
+
+      List<Appointment> appointmentList = [];
+
+      for (var sportsFacility in sportsFacilityList) {
+        appointmentList.addAll(snapshot.docs
+            .where((doc) =>
+                doc.data()['listingID'] == sportsFacility.listingID &&
+                doc.data()['status'] != AppointmentStatus.canceled.name)
+            .map((doc) => Appointment.fromJson(doc.id, doc.data()))
+            .toList());
+      }
+
+      appointmentList.sort((a, b) => a.slot.compareTo(b.slot));
+      return appointmentList;
+    });
   }
 
   Stream<List<Marker>> getSportsRelatedBusinessMarkerList(
@@ -136,7 +167,6 @@ class SportsRelatedBusinessServiceFirebase {
         .asUint8List();
   }
 
-  
   Stream<List<SportsRelatedBusiness>> getPendingSRB() {
     return firestoreInstance
         .collection(FirestoreCollectionConstant.sportsRelatedBusiness)
@@ -154,10 +184,33 @@ class SportsRelatedBusinessServiceFirebase {
     });
   }
 
-  Future changeAuthenticationStatus(String userID, AuthenticationStatus authenticationStatus)async{
+  Future changeAuthenticationStatus(
+      String userID, AuthenticationStatus authenticationStatus) async {
     return await firestoreInstance
         .collection(FirestoreCollectionConstant.sportsRelatedBusiness)
         .doc(userID)
         .update({'authenticationStatus': authenticationStatus.name});
+  }
+
+  Stream<List<ChartData>> getSRBSummary() {
+    return firestoreInstance
+        .collection(FirestoreCollectionConstant.sportsRelatedBusiness)
+        .snapshots()
+        .map((snapshot) {
+      List<ChartData> chartData = List.generate(
+          AuthenticationStatus.values.length,
+          (index) =>
+              ChartData(AuthenticationStatus.values[index].summaryText, 0));
+      for (var doc in snapshot.docs) {
+        final index = chartData.indexWhere((element) =>
+            element.x ==
+            AuthenticationStatus.values
+                .byName(doc.data()['authenticationStatus'])
+                .summaryText);
+
+        chartData[index].y += 1;
+      }
+      return chartData;
+    });
   }
 }

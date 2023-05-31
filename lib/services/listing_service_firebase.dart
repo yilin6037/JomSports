@@ -86,6 +86,26 @@ class ListingServiceFirebase {
     });
   }
 
+  Future<List<SportsFacility>> readSportsFacilityList(String userID) async {
+    final snapshot = await firestoreInstance
+        .collection(FirestoreCollectionConstant.listing)
+        .where('userID', isEqualTo: userID)
+        .get();
+
+    List<SportsFacility> sportsFacilityList = [];
+    for (var doc in snapshot.docs) {
+      if (doc.data()['listingType'] == ListingType.facility.name) {
+        SportsFacility? sportsFacility =
+            await getSF(Listing.fromListingJson(doc.id, doc.data()));
+        if (sportsFacility != null) {
+          await sportsFacility.getListingPicUrl();
+          sportsFacilityList.add(sportsFacility);
+        }
+      }
+    }
+    return sportsFacilityList;
+  }
+
   Future<SportsFacility?> getSF(Listing listing) async {
     final snapshot = await firestoreInstance
         .collection(FirestoreCollectionConstant.sportsFacility)
