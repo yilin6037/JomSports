@@ -14,7 +14,7 @@ class RegisterSportsLoverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
-      title: 'Register as Sports Lover',
+      title: 'Register as a Player',
       navIndex: 0,
       role: userController.currentUser.userType,
       body: Card(

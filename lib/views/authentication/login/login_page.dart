@@ -15,7 +15,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController userController = Get.put(tag:'userController', UserController());
+    final UserController userController =
+        Get.put(tag: 'userController', UserController());
 
     return SimpleScaffold(
         role: userController.currentUser.userType,
@@ -31,50 +32,51 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   /*content*/
-                  const Text(
-                    'Login',
-                    style: TextStyle(fontSize: 32),
-                  ),
+                  // const Text(
+                  //   'Login',
+                  //   style: TextStyle(fontSize: 32),
+                  // ),
                   /* form */
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Form(
-                        key: userController.loginFormKey,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        child: Column(
+                  Form(
+                    key: userController.loginFormKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      children: [
+                        /* email */
+                        SharedTextFormField(
+                          controller: userController.emailTextController,
+                          labelText: 'Email',
+                          hintText: 'Please enter the email',
+                          keyboard: TextInputType.emailAddress,
+                          validator: ValidatorType.email,
+                        ),
+                        /* password */
+                        SharedTextFormField(
+                          controller: userController.passwordTextController,
+                          labelText: 'Password',
+                          hintText: 'Please enter the password',
+                          obscureText: true,
+                          validator: ValidatorType.required,
+                        ),
+                        //forgot password
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            /* email */
-                            SharedTextFormField(
-                              controller: userController.emailTextController,
-                              labelText: 'Email',
-                              hintText: 'Please enter the email',
-                              keyboard: TextInputType.emailAddress,
-                              validator: ValidatorType.email,
-                            ),
-                            /* password */
-                            SharedTextFormField(
-                              controller: userController.passwordTextController,
-                              labelText: 'Password',
-                              hintText: 'Please enter the password',
-                              obscureText: true,
-                              validator: ValidatorType.required,
-                            ),
-                            //forgot password
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                TextButton(
-                                    onPressed: () {
-                                      userController.cleanForgotPasswordData();
-                                      Get.to(() =>ForgotPasswordPage());
-                                      userController.cleanLoginData();
-                                    },
-                                    child: const Text('Forgot Password')),
-                              ],
-                            ),
+                            TextButton(
+                                onPressed: () {
+                                  userController.cleanForgotPasswordData();
+                                  Get.to(() => ForgotPasswordPage());
+                                  userController.cleanLoginData();
+                                },
+                                child: const Text('Forgot Password')),
                           ],
                         ),
-                      )),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   /* button */
                   SharedButton(
                       onPressed: () async {
@@ -91,7 +93,7 @@ class LoginPage extends StatelessWidget {
                   const Text('or'),
                   SharedButton(
                       onPressed: () {
-                        Get.to(() =>RegisterRolePage());
+                        Get.to(() => RegisterRolePage());
                       },
                       text: 'Register now')
                 ],
@@ -102,7 +104,7 @@ class LoginPage extends StatelessWidget {
   }
 
   void loginSuccessful() {
-    Get.offAll(()=>HomePage());
+    Get.offAll(() => HomePage());
   }
 
   void display(String title, String message) {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jomsports/controllers/sports_activity_controller.dart';
-import 'package:jomsports/controllers/sports_related_business_controller.dart';
 import 'package:jomsports/views/forum/forum/forum_page.dart';
 import 'package:jomsports/views/home/home_page.dart';
 import 'package:jomsports/views/sports_activity/sports_activity/sports_activity_page.dart';
@@ -50,7 +48,7 @@ class SportsLoverNavBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.store_outlined),
-          label: 'Shops',
+          label: 'Providers',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.diversity_1_outlined),

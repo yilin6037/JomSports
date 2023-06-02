@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jomsports/shared/constant/asset.dart';
 import 'package:jomsports/shared/constant/color.dart';
+import 'package:jomsports/shared/constant/font.dart';
 import 'package:jomsports/shared/constant/map.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/widget/navigation_bar.dart/admin_nav_bar.dart';
@@ -46,7 +47,11 @@ class MapScaffold extends StatelessWidget {
         title: RichText(
           text: TextSpan(
               text: title,
-              style: const TextStyle(color: Colors.black, fontSize: 25)),
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontFamily: FontConstant.acme,
+              )),
         ),
       ),
       body: Stack(

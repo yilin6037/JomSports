@@ -22,7 +22,7 @@ class SportsRelatedBusinessPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return MapScaffold(
-              title: 'Explore Shops',
+              title: 'Explore Providers',
               role: Role.sportsLover,
               navIndex: 2,
               currentLatLng: snapshot.data!,
@@ -39,7 +39,7 @@ class SportsRelatedBusinessPage extends StatelessWidget {
           } else {
             return DefaultScaffold(
               body: const CircularProgressIndicator(),
-              title: 'Explore Shops',
+              title: 'Explore Providers',
               role: Role.sportsLover,
               navIndex: 2,
               back: false,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jomsports/controllers/user_controller.dart';
 import 'package:jomsports/shared/constant/asset.dart';
+import 'package:jomsports/shared/constant/color.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/dialog/dialog.dart';
 import 'package:jomsports/shared/widget/scaffold/scaffold_default.dart';
@@ -29,43 +30,34 @@ class RegisterRolePage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => displayPage(Role.sportsLover),
                   style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(0)),
-                  child: Container(
-                    width: 250,
-                    height: 225,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(AssetConstant.sportsLover),
-                            fit: BoxFit.cover)),
-                    child: const Center(
-                      child: Text('Sports Lover',
-                          style: TextStyle(
-                              fontSize: 40, shadows: [Shadow(blurRadius: 1)]),
-                          textAlign: TextAlign.center),
-                    ),
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(20),
+                    backgroundColor:
+                        const Color(ColorConstant.buttonBackgroundColor),
+                  ),
+                  child: const Icon(
+                    Icons.sports_handball,
+                    size: 100,
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const Text('Player'),
+                const SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                ),
                 ElevatedButton(
                   onPressed: () => displayPage(Role.sportsRelatedBusiness),
                   style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(0)),
-                  child: Container(
-                    width: 250,
-                    height: 225,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                                AssetConstant.sportsRelatedBusiness),
-                            fit: BoxFit.cover)),
-                    child: const Center(
-                      child: Text('Sports Related Business',
-                          style: TextStyle(
-                              fontSize: 40, shadows: [Shadow(blurRadius: 1)]),
-                          textAlign: TextAlign.center),
-                    ),
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(20),
+                      backgroundColor:
+                          const Color(ColorConstant.buttonBackgroundColor)),
+                  child: const Icon(
+                    Icons.store_outlined,
+                    size: 100,
                   ),
                 ),
+                const Text('Provider'),
               ],
             ),
           ),
@@ -76,11 +68,11 @@ class RegisterRolePage extends StatelessWidget {
     userController.cleanProfileData();
     switch (role) {
       case Role.sportsLover:
-        Get.to(() =>RegisterSportsLoverPage());
+        Get.to(() => RegisterSportsLoverPage());
         break;
       case Role.sportsRelatedBusiness:
         await userController.initMap();
-        Get.to(() =>RegisterSportsRelatedBusinessPage());
+        Get.to(() => RegisterSportsRelatedBusinessPage());
         break;
       case Role.admin:
         SharedDialog.errorDialog();

@@ -8,7 +8,11 @@ import 'package:jomsports/shared/widget/navigation_bar.dart/sports_lover_nav_bar
 import 'package:jomsports/shared/widget/navigation_bar.dart/sports_related_business_nav_bar.dart';
 
 class SimpleScaffold extends StatelessWidget {
-  const SimpleScaffold({super.key, required this.body, required this.role, required this.navIndex});
+  const SimpleScaffold(
+      {super.key,
+      required this.body,
+      required this.role,
+      required this.navIndex});
 
   final Widget body;
   final Role role;
@@ -26,16 +30,22 @@ class SimpleScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(ColorConstant.scaffoldBackgroundColor),
       appBar: AppBar(
-            backgroundColor: const Color(ColorConstant.appBarBackgroundColor),
-            toolbarHeight: height.value,
-            title: Image.asset(AssetConstant.logoBig)),
+          backgroundColor: const Color(ColorConstant.appBarBackgroundColor),
+          toolbarHeight: height.value,
+          title: Image.asset(
+            AssetConstant.logoBig,
+            height: height.value,
+            fit: BoxFit.fitHeight,
+          ),
+          centerTitle: true,
+          leading: Container()),
       body: body,
-      bottomNavigationBar:bottomNavigationBar(),
+      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 
-  Widget? bottomNavigationBar(){
-    switch (role){
+  Widget? bottomNavigationBar() {
+    switch (role) {
       case Role.sportsLover:
         return SportsLoverNavBar(currentIndex: navIndex);
       case Role.sportsRelatedBusiness:

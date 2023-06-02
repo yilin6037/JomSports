@@ -29,7 +29,7 @@ class SportsActivityCard extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(sportsActivity.dateTime)
+                Expanded(child: Text(sportsActivity.dateTime))
               ],
             ),
             //location

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jomsports/shared/constant/asset.dart';
 import 'package:jomsports/shared/constant/color.dart';
+import 'package:jomsports/shared/constant/font.dart';
 import 'package:jomsports/shared/constant/role.dart';
 import 'package:jomsports/shared/widget/navigation_bar.dart/admin_nav_bar.dart';
 import 'package:jomsports/shared/widget/navigation_bar.dart/sports_lover_nav_bar.dart';
@@ -31,13 +32,21 @@ class DefaultScaffold extends StatelessWidget {
       backgroundColor: const Color(ColorConstant.scaffoldBackgroundColor),
       appBar: AppBar(
         backgroundColor: const Color(ColorConstant.appBarBackgroundColor),
-        leading: Image.asset(AssetConstant.logoBig),
+        leading: Image.asset(
+          AssetConstant.logoBig,
+          height: 75,
+          fit: BoxFit.fitHeight,
+        ),
         leadingWidth: 125,
         toolbarHeight: 75,
         title: RichText(
           text: TextSpan(
               text: title,
-              style: const TextStyle(color: Colors.black, fontSize: 25)),
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontFamily: FontConstant.acme
+              )),
         ),
       ),
       body: Column(

@@ -6,8 +6,7 @@ class AssetConstant{
   //logo
   static const logo = '/logo';
   static const logoBig = '$assets$logo/logo.png';
-  static const logoSmall = '$assets$logo/logo_small.png';
-  static const logoSmallTransparent = '$assets$logo/logo_small_transparent.png';
+  static const logoLauncher = '$assets$logo/logo_launcher.png';
 
   //map_marker
   static const mapMarker = '/map_marker';
