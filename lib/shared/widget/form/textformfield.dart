@@ -87,6 +87,14 @@ class SharedTextFormField extends StatelessWidget {
                 return 'Not a valid hour';
               }
               break;
+            case ValidatorType.password:
+              if (value == '') {
+                return 'This field is required';
+              }
+              if (GetUtils.isLengthLessThan(value, 6)) {
+                return 'Password should be at least 6 characters.';
+              }
+              break;
           }
         }
 

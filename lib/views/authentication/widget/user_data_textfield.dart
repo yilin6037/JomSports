@@ -36,7 +36,7 @@ class UserDataTextfield extends StatelessWidget {
           labelText: 'Password',
           hintText: 'Please enter your password',
           obscureText: true,
-          validator: ValidatorType.required,
+          validator: ValidatorType.password,
           enabled: enableEmailPassword,
         ),
         //reset password button
