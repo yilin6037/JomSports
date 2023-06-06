@@ -34,7 +34,7 @@ class MakeAppointmentPage extends StatelessWidget {
               sportsRelatedBusinessController.lon.value)
           .obs;
       return MapScaffold(
-        title: 'Choose Shop for Appointment',
+        title: 'Choose Provider for Appointment',
         role: Role.sportsLover,
         navIndex: 1,
         currentLatLng: currentLatLng.value,
