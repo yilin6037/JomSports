@@ -176,7 +176,7 @@ class SportsActivityController extends GetxController {
   GlobalKey<FormState> commentFormKey = GlobalKey<FormState>();
   TextEditingController commentTextController = TextEditingController();
 
-  Future onComment() async {
+  Future comment() async {
     SportsActivityComment comment = SportsActivityComment(
         saCommentID: '',
         content: commentTextController.text,

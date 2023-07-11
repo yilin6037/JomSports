@@ -95,7 +95,7 @@ class CommentWidget extends StatelessWidget {
                   onPressed: () async {
                     if (sportsActivityController.commentFormKey.currentState!
                         .validate()) {
-                      await sportsActivityController.onComment().then((_) {
+                      await sportsActivityController.comment().then((_) {
                         sportsActivityController.cleanComment();
                       });
                     }
