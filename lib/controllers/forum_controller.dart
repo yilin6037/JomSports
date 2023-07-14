@@ -156,7 +156,7 @@ class ForumController extends GetxController {
   GlobalKey<FormState> commentFormKey = GlobalKey<FormState>();
   TextEditingController commentTextController = TextEditingController();
 
-  Future onComment() async {
+  Future comment() async {
     Comment comment = Comment(
         commentID: '',
         content: commentTextController.text,

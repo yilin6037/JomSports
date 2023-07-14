@@ -27,7 +27,7 @@ class SportsRelatedBusinessPage extends StatelessWidget {
               navIndex: 2,
               currentLatLng: snapshot.data!,
               stream: sportsRelatedBusinessController
-                  .getSportsActivityMarkerList(onTap: (sportsRelatedBusiness) {
+                  .getSportsRelatedBusinessMarkerList(onTap: (sportsRelatedBusiness) {
                 bool isInit = sportsRelatedBusinessController
                     .initSRB(sportsRelatedBusiness);
                 if (isInit) {

@@ -31,7 +31,7 @@ class SportsRelatedBusinessController extends GetxController {
     return LatLng(lat.value, lon.value);
   }
 
-  Stream<List<Marker>> getSportsActivityMarkerList(
+  Stream<List<Marker>> getSportsRelatedBusinessMarkerList(
       {required Function(SportsRelatedBusiness) onTap, bool isSFOnly = false}) {
     return SportsRelatedBusiness.getSportsRelatedBusinessMarkerList(
         lat: lat.value, lon: lon.value, onTap: onTap, isSFOnly: isSFOnly);

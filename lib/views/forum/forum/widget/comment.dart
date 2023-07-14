@@ -101,7 +101,7 @@ class CommentWidget extends StatelessWidget {
                   onPressed: () async {
                     if (forumController.commentFormKey.currentState!
                         .validate()) {
-                      await forumController.onComment().then((_) {
+                      await forumController.comment().then((_) {
                         forumController.cleanComment();
                       });
                     }

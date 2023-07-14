@@ -38,7 +38,7 @@ class MakeAppointmentPage extends StatelessWidget {
         role: Role.sportsLover,
         navIndex: 1,
         currentLatLng: currentLatLng.value,
-        stream: sportsRelatedBusinessController.getSportsActivityMarkerList(
+        stream: sportsRelatedBusinessController.getSportsRelatedBusinessMarkerList(
             onTap: (sportsRelatedBusiness) {
               bool isInit = sportsRelatedBusinessController
                   .initSRB(sportsRelatedBusiness);
